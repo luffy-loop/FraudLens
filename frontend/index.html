@@ -11,101 +11,231 @@
 
 <body>
 
-    <main class="container">
+<main class="container">
 
-        <header class="hero">
-            <p class="eyebrow">ML-POWERED FRAUD DETECTION</p>
+    <header class="hero">
+        <p class="eyebrow">ML-POWERED FRAUD DETECTION</p>
 
-            <h1>FraudLens</h1>
+        <h1>FraudLens</h1>
 
-            <p class="subtitle">
-                Analyze a transaction and estimate its probability of fraud.
-            </p>
-        </header>
+        <p class="subtitle">
+            Detect suspicious transactions using machine learning.
+        </p>
+    </header>
 
 
-        <section class="card">
+    <!-- MODE SELECTION -->
 
-            <div class="section-header">
-                <div>
-                    <h2>Transaction Analysis</h2>
-                    <p>
-                        Enter the transaction details used by the FraudLens
-                        prediction model.
-                    </p>
+    <section class="mode-section">
+
+        <h2>Choose Analysis Mode</h2>
+
+        <p class="mode-description">
+            Select how you want to provide transaction data.
+        </p>
+
+        <div class="mode-grid">
+
+            <button class="mode-card active" data-mode="demo">
+                <span class="mode-number">01</span>
+                <span class="mode-title">Quick Demo</span>
+                <span class="mode-text">
+                    Test FraudLens using a built-in transaction.
+                </span>
+            </button>
+
+            <button class="mode-card" data-mode="csv">
+                <span class="mode-number">02</span>
+                <span class="mode-title">Upload CSV</span>
+                <span class="mode-text">
+                    Analyze a transaction containing all model features.
+                </span>
+            </button>
+
+            <button class="mode-card" data-mode="advanced">
+                <span class="mode-number">03</span>
+                <span class="mode-title">Advanced</span>
+                <span class="mode-text">
+                    Manually enter all 30 transaction features.
+                </span>
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK DEMO -->
+
+    <section id="demoMode" class="card mode-panel">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">QUICK DEMO</p>
+
+                <h2>Test FraudLens</h2>
+
+                <p>
+                    Use a known transaction example to test the complete
+                    prediction pipeline.
+                </p>
+            </div>
+
+        </div>
+
+        <button id="demoButton" class="primary-button">
+            Analyze Sample Transaction
+        </button>
+
+    </section>
+
+
+    <!-- CSV MODE -->
+
+    <section id="csvMode" class="card mode-panel hidden">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">CSV ANALYSIS</p>
+
+                <h2>Upload Transaction</h2>
+
+                <p>
+                    Upload a CSV containing Time, V1–V28 and Amount.
+                </p>
+            </div>
+
+        </div>
+
+        <input
+            type="file"
+            id="csvFile"
+            accept=".csv"
+        >
+
+        <p class="file-help">
+            Required columns: Time, V1–V28, Amount
+        </p>
+
+    </section>
+
+
+    <!-- ADVANCED MODE -->
+
+    <section id="advancedMode" class="card mode-panel hidden">
+
+        <div class="section-header">
+
+            <div>
+                <p class="panel-label">ADVANCED ANALYSIS</p>
+
+                <h2>Transaction Features</h2>
+
+                <p>
+                    Enter all 30 features used by the Random Forest model.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form id="fraudForm">
+
+            <div class="input-grid">
+
+                <div class="input-group">
+                    <label for="Time">Time</label>
+                    <input type="number" id="Time" step="any">
                 </div>
-            </div>
 
+                <script>
+                    for (let i = 1; i <= 28; i++) {
+                        document.write(`
+                            <div class="input-group">
+                                <label for="V${i}">V${i}</label>
+                                <input
+                                    type="number"
+                                    id="V${i}"
+                                    step="any"
+                                >
+                            </div>
+                        `);
+                    }
+                </script>
 
-            <form id="fraudForm">
-
-                <div class="input-grid">
-
-                    <div class="input-group">
-                        <label for="Time">Time</label>
-                        <input type="number" id="Time" step="any" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="Amount">Amount</label>
-                        <input type="number" id="Amount" step="any" required>
-                    </div>
-
-                    <script>
-                        for (let i = 1; i <= 28; i++) {
-                            document.write(`
-                                <div class="input-group">
-                                    <label for="V${i}">V${i}</label>
-                                    <input
-                                        type="number"
-                                        id="V${i}"
-                                        step="any"
-                                        required
-                                    >
-                                </div>
-                            `);
-                        }
-                    </script>
-
+                <div class="input-group">
+                    <label for="Amount">Amount</label>
+                    <input type="number" id="Amount" step="any">
                 </div>
 
-                <button type="submit">
-                    Analyze Transaction
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <section id="result" class="result-card hidden">
-
-            <p class="result-label">FRAUDLENS RESULT</p>
-
-            <h2 id="resultText">Analyzing...</h2>
-
-            <div class="probability">
-                <span>Fraud Probability</span>
-                <strong id="probabilityText">0%</strong>
             </div>
 
-            <div class="threshold">
-                Classification threshold:
-                <strong id="thresholdText">0.65</strong>
-            </div>
+            <button type="submit" class="primary-button">
+                Analyze Transaction
+            </button>
 
-        </section>
+        </form>
+
+    </section>
 
 
-        <footer>
-            <p>
-                FraudLens · Random Forest Fraud Detection
-            </p>
-        </footer>
+    <!-- RESULT -->
 
-    </main>
+<section id="result" class="result-card hidden">
 
-    <script src="script.js"></script>
+    <p class="result-label">FRAUDLENS RESULT</p>
+
+    <h2 id="resultText">Analyzing...</h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <span>Total Transactions</span>
+            <strong id="totalTransactions">—</strong>
+        </div>
+
+        <div class="stat-card fraud-stat">
+            <span>Fraudulent</span>
+            <strong id="fraudCount">—</strong>
+        </div>
+
+        <div class="stat-card legitimate-stat">
+            <span>Legitimate</span>
+            <strong id="legitimateCount">—</strong>
+        </div>
+
+        <div class="stat-card">
+            <span>Fraud Rate</span>
+            <strong id="fraudRate">—</strong>
+        </div>
+
+    </div>
+
+    <div class="probability">
+
+        <span>Average Fraud Probability</span>
+
+        <strong id="probabilityText">—</strong>
+
+    </div>
+
+    <div class="threshold">
+        Classification threshold:
+        <strong id="thresholdText">0.65</strong>
+    </div>
+
+</section>
+
+
+    <footer>
+        FraudLens · Random Forest Fraud Detection
+    </footer>
+
+</main>
+
+<script src="script.js"></script>
 
 </body>
 </html>

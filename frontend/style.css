@@ -6,15 +6,24 @@
 
 body {
     min-height: 100vh;
+
     font-family: Arial, sans-serif;
 
     background:
-        radial-gradient(circle at top left, #243b55, transparent 40%),
-        linear-gradient(135deg, #0f172a, #111827);
+        radial-gradient(
+            circle at top left,
+            #243b55,
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #111827
+        );
 
     color: #f8fafc;
 
-    padding: 40px 20px;
+    padding: 45px 20px;
 }
 
 .container {
@@ -22,20 +31,23 @@ body {
     margin: auto;
 }
 
+
+/* HERO */
+
 .hero {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .eyebrow {
     font-size: 12px;
     letter-spacing: 3px;
-    color: #94a3b8;
+    color: #60a5fa;
     margin-bottom: 12px;
 }
 
 .hero h1 {
-    font-size: 56px;
+    font-size: 58px;
     margin-bottom: 10px;
 }
 
@@ -44,56 +56,223 @@ body {
     font-size: 18px;
 }
 
+
+/* MODE SECTION */
+
+.mode-section {
+    margin-bottom: 25px;
+}
+
+.mode-section h2 {
+    font-size: 24px;
+    margin-bottom: 7px;
+}
+
+.mode-description {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.mode-card {
+    text-align: left;
+
+    padding: 22px;
+
+    border-radius: 16px;
+    border: 1px solid #334155;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.mode-card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+}
+
+.mode-card.active {
+    border-color: #3b82f6;
+    background: rgba(37, 99, 235, 0.16);
+}
+
+.mode-number {
+    display: block;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    color: #60a5fa;
+
+    margin-bottom: 10px;
+}
+
+.mode-title {
+    display: block;
+
+    font-size: 19px;
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.mode-text {
+    display: block;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    color: #94a3b8;
+}
+
+
+/* CARDS */
+
 .card,
 .result-card {
     background: rgba(255, 255, 255, 0.06);
+
     border: 1px solid rgba(255, 255, 255, 0.1);
+
     border-radius: 20px;
+
     padding: 30px;
 
     backdrop-filter: blur(15px);
 
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 .section-header {
     margin-bottom: 25px;
 }
 
+.panel-label {
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: #60a5fa;
+
+    margin-bottom: 8px;
+}
+
 .section-header h2 {
-    font-size: 25px;
-    margin-bottom: 7px;
+    font-size: 26px;
+
+    margin-bottom: 8px;
 }
 
 .section-header p {
     color: #94a3b8;
 }
 
+
+/* BUTTON */
+
+.primary-button {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.primary-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* FILE */
+
+input[type="file"] {
+    width: 100%;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    border: 1px dashed #475569;
+
+    background: #0f172a;
+
+    color: #cbd5e1;
+}
+
+.file-help {
+    margin-top: 12px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ADVANCED INPUTS */
+
 .input-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
     gap: 16px;
 }
 
 .input-group {
     display: flex;
+
     flex-direction: column;
+
     gap: 7px;
 }
 
 .input-group label {
     font-size: 13px;
+
     color: #cbd5e1;
 }
 
 .input-group input {
     width: 100%;
+
     padding: 11px 12px;
 
     border-radius: 10px;
+
     border: 1px solid #334155;
 
     background: #0f172a;
+
     color: white;
 
     outline: none;
@@ -103,65 +282,55 @@ body {
     border-color: #60a5fa;
 }
 
-button {
-    width: 100%;
-    margin-top: 28px;
 
-    padding: 15px;
-
-    border: none;
-    border-radius: 12px;
-
-    background: #2563eb;
-    color: white;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-button:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
-}
+/* RESULT */
 
 .result-card {
     margin-top: 25px;
+
     text-align: center;
 }
 
 .result-label {
     font-size: 12px;
+
     letter-spacing: 2px;
-    color: #94a3b8;
+
+    color: #60a5fa;
 }
 
 .result-card h2 {
-    font-size: 34px;
+    font-size: 36px;
+
     margin: 12px 0 25px;
 }
 
 .probability {
     display: flex;
+
     justify-content: space-between;
+
+    align-items: center;
 
     padding: 18px;
 
     border-radius: 12px;
+
     background: rgba(255, 255, 255, 0.05);
 }
 
 .probability strong {
-    font-size: 22px;
+    font-size: 23px;
 }
 
 .threshold {
     margin-top: 15px;
+
     color: #94a3b8;
 }
+
+
+/* UTILITIES */
 
 .hidden {
     display: none;
@@ -169,18 +338,28 @@ button:hover {
 
 footer {
     text-align: center;
+
     color: #64748b;
+
     margin-top: 30px;
 }
 
+
+/* RESPONSIVE */
+
 @media (max-width: 800px) {
 
+    .mode-grid {
+        grid-template-columns: 1fr;
+    }
+
     .input-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     .hero h1 {
-        font-size: 42px;
+        font-size: 45px;
     }
 }
 
@@ -189,4 +368,72 @@ footer {
     .input-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* BATCH RESULT DASHBOARD */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin: 25px 0;
+}
+
+.stat-card {
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.08);
+}
+
+.stat-card span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+}
+
+.stat-card strong {
+    display: block;
+
+    font-size: 28px;
+}
+
+.fraud-stat strong {
+    color: #f87171;
+}
+
+.legitimate-stat strong {
+    color: #4ade80;
+}
+
+
+@media (max-width: 800px) {
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
 }
