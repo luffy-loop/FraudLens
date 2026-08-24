@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FraudLens | Fraud Detection</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="hero">
+            <p class="eyebrow">ML-POWERED FRAUD DETECTION</p>
+
+            <h1>FraudLens</h1>
+
+            <p class="subtitle">
+                Analyze a transaction and estimate its probability of fraud.
+            </p>
+        </header>
+
+
+        <section class="card">
+
+            <div class="section-header">
+                <div>
+                    <h2>Transaction Analysis</h2>
+                    <p>
+                        Enter the transaction details used by the FraudLens
+                        prediction model.
+                    </p>
+                </div>
+            </div>
+
+
+            <form id="fraudForm">
+
+                <div class="input-grid">
+
+                    <div class="input-group">
+                        <label for="Time">Time</label>
+                        <input type="number" id="Time" step="any" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="Amount">Amount</label>
+                        <input type="number" id="Amount" step="any" required>
+                    </div>
+
+                    <script>
+                        for (let i = 1; i <= 28; i++) {
+                            document.write(`
+                                <div class="input-group">
+                                    <label for="V${i}">V${i}</label>
+                                    <input
+                                        type="number"
+                                        id="V${i}"
+                                        step="any"
+                                        required
+                                    >
+                                </div>
+                            `);
+                        }
+                    </script>
+
+                </div>
+
+                <button type="submit">
+                    Analyze Transaction
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section id="result" class="result-card hidden">
+
+            <p class="result-label">FRAUDLENS RESULT</p>
+
+            <h2 id="resultText">Analyzing...</h2>
+
+            <div class="probability">
+                <span>Fraud Probability</span>
+                <strong id="probabilityText">0%</strong>
+            </div>
+
+            <div class="threshold">
+                Classification threshold:
+                <strong id="thresholdText">0.65</strong>
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>
+                FraudLens · Random Forest Fraud Detection
+            </p>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

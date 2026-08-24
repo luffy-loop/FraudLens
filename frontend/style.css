@@ -1,0 +1,192 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at top left, #243b55, transparent 40%),
+        linear-gradient(135deg, #0f172a, #111827);
+
+    color: #f8fafc;
+
+    padding: 40px 20px;
+}
+
+.container {
+    width: min(1100px, 100%);
+    margin: auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-size: 56px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #94a3b8;
+    font-size: 18px;
+}
+
+.card,
+.result-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.section-header p {
+    color: #94a3b8;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.input-group label {
+    font-size: 13px;
+    color: #cbd5e1;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 11px 12px;
+
+    border-radius: 10px;
+    border: 1px solid #334155;
+
+    background: #0f172a;
+    color: white;
+
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #60a5fa;
+}
+
+button {
+    width: 100%;
+    margin-top: 28px;
+
+    padding: 15px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.result-card {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #94a3b8;
+}
+
+.result-card h2 {
+    font-size: 34px;
+    margin: 12px 0 25px;
+}
+
+.probability {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 18px;
+
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.probability strong {
+    font-size: 22px;
+}
+
+.threshold {
+    margin-top: 15px;
+    color: #94a3b8;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    margin-top: 30px;
+}
+
+@media (max-width: 800px) {
+
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}
