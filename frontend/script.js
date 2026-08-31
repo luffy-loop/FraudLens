@@ -1,4 +1,5 @@
-const API_URL = "http://127.0.0.1:5000/predict";
+const API_URL = "/predict";
+const BATCH_API_URL = "/predict_batch";
 
 const modeButtons = document.querySelectorAll(".mode-card");
 
@@ -88,7 +89,7 @@ modeButtons.forEach(button => {
 
 
 // --------------------------------------------------
-// DISPLAY RESULT
+// DISPLAY SINGLE RESULT
 // --------------------------------------------------
 
 function showResult(data) {
@@ -121,11 +122,20 @@ function showResult(data) {
         "fraudRate"
     ).textContent =
         data.prediction === 1 ? "100%" : "0%";
+
+    // Hide batch table for single transaction results
+
+    const batchResults =
+        document.getElementById("batchResults");
+
+    if (batchResults) {
+        batchResults.classList.add("hidden");
+    }
 }
 
 
 // --------------------------------------------------
-// API REQUEST
+// API REQUEST FOR SINGLE TRANSACTION
 // --------------------------------------------------
 
 async function predictTransaction(transaction) {
@@ -134,6 +144,7 @@ async function predictTransaction(transaction) {
 
     resultText.textContent = "Analyzing...";
     probabilityText.textContent = "—";
+    thresholdText.textContent = "Processing...";
 
     try {
 
@@ -153,9 +164,11 @@ async function predictTransaction(transaction) {
         const data = await response.json();
 
         if (!response.ok) {
+
             throw new Error(
                 data.error || "Prediction failed"
             );
+
         }
 
         showResult(data);
@@ -168,6 +181,9 @@ async function predictTransaction(transaction) {
 
         probabilityText.textContent =
             error.message;
+
+        thresholdText.textContent =
+            "Please try again.";
     }
 }
 
@@ -198,7 +214,9 @@ document
         const transaction = {};
 
         transaction.Time =
-            Number(document.getElementById("Time").value);
+            Number(
+                document.getElementById("Time").value
+            );
 
         for (let i = 1; i <= 28; i++) {
 
@@ -210,12 +228,106 @@ document
         }
 
         transaction.Amount =
-            Number(document.getElementById("Amount").value);
+            Number(
+                document.getElementById("Amount").value
+            );
 
         predictTransaction(transaction);
 
     });
 
+
+// --------------------------------------------------
+// DISPLAY BATCH RESULTS TABLE
+// --------------------------------------------------
+
+function displayBatchResults(results) {
+
+    const batchResults =
+        document.getElementById("batchResults");
+
+    const tableBody =
+        document.getElementById("resultsTableBody");
+
+    if (!batchResults || !tableBody) {
+        return;
+    }
+
+    tableBody.innerHTML = "";
+
+    results.forEach(item => {
+
+        const row =
+            document.createElement("tr");
+
+        const probability =
+            (item.fraud_probability * 100)
+                .toFixed(2) + "%";
+
+        row.innerHTML = `
+            <td>${item.transaction}</td>
+            <td>${probability}</td>
+            <td>${item.result}</td>
+        `;
+
+        tableBody.appendChild(row);
+
+    });
+
+    batchResults.classList.remove("hidden");
+}
+
+// --------------------------------------------------
+// DOWNLOAD BATCH RESULTS
+// --------------------------------------------------
+
+document
+    .getElementById("downloadResults")
+    .addEventListener("click", () => {
+
+        const rows = [
+            ["Transaction", "Fraud Probability", "Result"]
+        ];
+
+        const tableRows =
+            document.querySelectorAll("#resultsTableBody tr");
+
+        tableRows.forEach(row => {
+
+            const cells = row.querySelectorAll("td");
+
+            rows.push([
+                cells[0].textContent,
+                cells[1].textContent,
+                cells[2].textContent
+            ]);
+
+        });
+
+        const csvContent = rows
+            .map(row => row.join(","))
+            .join("\n");
+
+        const blob = new Blob(
+            [csvContent],
+            { type: "text/csv" }
+        );
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "fraudlens_results.csv";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+    });
 // --------------------------------------------------
 // CSV BATCH UPLOAD
 // --------------------------------------------------
@@ -232,43 +344,67 @@ document
 
         try {
 
-            const text = await file.text();
+            // Read CSV file
 
-            const rows = text
-                .trim()
-                .split(/\r?\n/);
+            const text =
+                await file.text();
+
+            const rows =
+                text
+                    .trim()
+                    .split(/\r?\n/);
+
 
             if (rows.length < 2) {
+
                 throw new Error(
                     "CSV file contains no transaction data."
                 );
+
             }
 
-            const headers = rows[0]
-                .split(",")
-                .map(header => header.trim());
+
+            // Read headers
+
+            const headers =
+                rows[0]
+                    .split(",")
+                    .map(header => header.trim());
+
+
+            // Required model features
 
             const requiredFeatures = [
                 "Time",
+
                 ...Array.from(
                     { length: 28 },
                     (_, i) => `V${i + 1}`
                 ),
+
                 "Amount"
             ];
 
+
+            // Check missing columns
+
             const missingFeatures =
                 requiredFeatures.filter(
-                    feature => !headers.includes(feature)
+                    feature =>
+                        !headers.includes(feature)
                 );
+
 
             if (missingFeatures.length > 0) {
 
                 throw new Error(
                     `Missing columns: ${missingFeatures.join(", ")}`
                 );
+
             }
 
+
+            // Convert CSV rows into transactions
 
             const transactions = [];
 
@@ -283,11 +419,15 @@ document
                     continue;
                 }
 
-                const values = rows[rowIndex]
-                    .split(",")
-                    .map(value => value.trim());
+
+                const values =
+                    rows[rowIndex]
+                        .split(",")
+                        .map(value => value.trim());
+
 
                 const transaction = {};
+
 
                 requiredFeatures.forEach(feature => {
 
@@ -299,6 +439,8 @@ document
 
                 });
 
+
+                // Check invalid values
 
                 const invalidValues =
                     requiredFeatures.filter(
@@ -319,6 +461,7 @@ document
 
 
                 transactions.push(transaction);
+
             }
 
 
@@ -330,6 +473,8 @@ document
 
             }
 
+
+            // Show loading state
 
             resultCard.classList.remove("hidden");
 
@@ -343,23 +488,35 @@ document
                 "Processing...";
 
 
-            // Send ALL transactions to the batch API
+            // Hide old batch table
 
-            const response = await fetch(
-                "http://127.0.0.1:5000/predict_batch",
-                {
-                    method: "POST",
+            const batchResults =
+                document.getElementById("batchResults");
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+            if (batchResults) {
+                batchResults.classList.add("hidden");
+            }
 
-                    body: JSON.stringify({
-                        transactions: transactions
-                    })
-                }
-            );
+
+            // Send ALL transactions to Flask
+
+            const response =
+                await fetch(
+                    BATCH_API_URL,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            transactions:
+                                transactions
+                        })
+                    }
+                );
 
 
             const data =
@@ -376,63 +533,86 @@ document
             }
 
 
-            // Calculate dashboard statistics
+            // Get prediction results
 
             const results =
                 data.results;
 
+
+            // Display transaction table
+
+            displayBatchResults(results);
+
+
+            // Calculate statistics
+
             const fraudCount =
                 results.filter(
-                    item => item.prediction === 1
+                    item =>
+                        item.prediction === 1
                 ).length;
+
 
             const legitimateCount =
                 results.filter(
-                    item => item.prediction === 0
+                    item =>
+                        item.prediction === 0
                 ).length;
+
 
             const totalTransactions =
                 results.length;
+
 
             const fraudRate =
                 (fraudCount /
                     totalTransactions) * 100;
 
+
             const averageProbability =
                 results.reduce(
                     (sum, item) =>
-                        sum + item.fraud_probability,
+                        sum +
+                        item.fraud_probability,
                     0
                 ) / totalTransactions;
 
 
-            // Display results
+            // Display dashboard results
 
             resultText.textContent =
                 "BATCH ANALYSIS COMPLETE";
+
 
             document.getElementById(
                 "totalTransactions"
             ).textContent =
                 totalTransactions;
 
+
             document.getElementById(
                 "fraudCount"
             ).textContent =
                 fraudCount;
+
 
             document.getElementById(
                 "legitimateCount"
             ).textContent =
                 legitimateCount;
 
+
             document.getElementById(
                 "fraudRate"
             ).textContent =
                 `${fraudRate.toFixed(2)}%`;
 
+
             probabilityText.textContent =
-                `${(averageProbability * 100).toFixed(2)}%`;
+                `${(
+                    averageProbability * 100
+                ).toFixed(2)}%`;
+
 
             thresholdText.textContent =
                 "0.65";
