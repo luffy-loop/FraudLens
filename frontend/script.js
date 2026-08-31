@@ -270,21 +270,14 @@ document
             }
 
 
-            resultCard.classList.remove("hidden");
-
-            resultText.textContent =
-                "Analyzing CSV...";
-
-            probabilityText.textContent =
-                `${rows.length - 1} transactions`;
+            const transactions = [];
 
 
-            let fraudCount = 0;
-            let legitimateCount = 0;
-            let totalProbability = 0;
-
-
-            for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
+            for (
+                let rowIndex = 1;
+                rowIndex < rows.length;
+                rowIndex++
+            ) {
 
                 if (!rows[rowIndex].trim()) {
                     continue;
@@ -298,7 +291,8 @@ document
 
                 requiredFeatures.forEach(feature => {
 
-                    const index = headers.indexOf(feature);
+                    const index =
+                        headers.indexOf(feature);
 
                     transaction[feature] =
                         Number(values[index]);
@@ -320,97 +314,128 @@ document
                     throw new Error(
                         `Invalid values in row ${rowIndex + 1}`
                     );
+
                 }
 
 
-                const response = await fetch(
-                    API_URL,
-                    {
-                        method: "POST",
+                transactions.push(transaction);
+            }
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
 
-                        body:
-                            JSON.stringify(transaction)
-                    }
+            if (transactions.length === 0) {
+
+                throw new Error(
+                    "No valid transactions found."
                 );
-
-
-                const data =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        data.error ||
-                        `Prediction failed for row ${rowIndex + 1}`
-                    );
-                }
-
-
-                totalProbability +=
-                    data.fraud_probability;
-
-
-                if (data.prediction === 1) {
-                    fraudCount++;
-                } else {
-                    legitimateCount++;
-                }
 
             }
 
 
-            const totalTransactions =
-                fraudCount + legitimateCount;
-
-
-            const fraudRate =
-                totalTransactions > 0
-                    ? (fraudCount / totalTransactions) * 100
-                    : 0;
-
-
-            const averageProbability =
-                totalTransactions > 0
-                    ? totalProbability / totalTransactions
-                    : 0;
-
-
             resultCard.classList.remove("hidden");
 
-resultText.textContent =
-    "BATCH ANALYSIS COMPLETE";
+            resultText.textContent =
+                "Analyzing CSV...";
 
-document.getElementById(
-    "totalTransactions"
-).textContent =
-    totalTransactions;
+            probabilityText.textContent =
+                `${transactions.length} transactions`;
 
-document.getElementById(
-    "fraudCount"
-).textContent =
-    fraudCount;
+            thresholdText.textContent =
+                "Processing...";
 
-document.getElementById(
-    "legitimateCount"
-).textContent =
-    legitimateCount;
 
-document.getElementById(
-    "fraudRate"
-).textContent =
-    `${fraudRate.toFixed(2)}%`;
+            // Send ALL transactions to the batch API
 
-probabilityText.textContent =
-    `${(averageProbability * 100).toFixed(2)}%`;
+            const response = await fetch(
+                "http://127.0.0.1:5000/predict_batch",
+                {
+                    method: "POST",
 
-thresholdText.textContent =
-    "0.65";
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        transactions: transactions
+                    })
+                }
+            );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Batch prediction failed"
+                );
+
+            }
+
+
+            // Calculate dashboard statistics
+
+            const results =
+                data.results;
+
+            const fraudCount =
+                results.filter(
+                    item => item.prediction === 1
+                ).length;
+
+            const legitimateCount =
+                results.filter(
+                    item => item.prediction === 0
+                ).length;
+
+            const totalTransactions =
+                results.length;
+
+            const fraudRate =
+                (fraudCount /
+                    totalTransactions) * 100;
+
+            const averageProbability =
+                results.reduce(
+                    (sum, item) =>
+                        sum + item.fraud_probability,
+                    0
+                ) / totalTransactions;
+
+
+            // Display results
+
+            resultText.textContent =
+                "BATCH ANALYSIS COMPLETE";
+
+            document.getElementById(
+                "totalTransactions"
+            ).textContent =
+                totalTransactions;
+
+            document.getElementById(
+                "fraudCount"
+            ).textContent =
+                fraudCount;
+
+            document.getElementById(
+                "legitimateCount"
+            ).textContent =
+                legitimateCount;
+
+            document.getElementById(
+                "fraudRate"
+            ).textContent =
+                `${fraudRate.toFixed(2)}%`;
+
+            probabilityText.textContent =
+                `${(averageProbability * 100).toFixed(2)}%`;
+
+            thresholdText.textContent =
+                "0.65";
 
 
         } catch (error) {
