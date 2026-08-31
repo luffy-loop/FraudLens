@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import joblib
 import pandas as pd
 
 app = Flask(__name__)
-
+CORS(app)
 # Load trained FraudLens model
 model_package = joblib.load(
     "models/fraud_detection_model.joblib"
