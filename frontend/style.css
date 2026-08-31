@@ -530,3 +530,30 @@ footer {
         align-items: flex-start;
     }
 }
+
+/* =========================================
+   ADVANCED ACTIONS
+   ========================================= */
+
+.advanced-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.secondary-button {
+    padding: 10px 16px;
+    border: 1px solid #3478ff;
+    border-radius: 8px;
+    background: transparent;
+    color: #62a0ff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.secondary-button:hover {
+    background: #3478ff;
+    color: white;
+}

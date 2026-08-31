@@ -133,16 +133,35 @@
 
                 <h2>Transaction Features</h2>
 
-                <p>
-                    Enter all 30 features used by the Random Forest model.
-                </p>
+               <p>
+    Enter the transaction details used by the fraud detection model.
+    Advanced users can provide the complete feature set.
+</p>
             </div>
 
         </div>
 
 
         <form id="fraudForm">
+	<div class="advanced-actions">
 
+    <button
+        type="button"
+        id="fillSampleButton"
+        class="secondary-button"
+    >
+        Fill Sample Transaction
+    </button>
+
+    <button
+        type="button"
+        id="clearFormButton"
+        class="secondary-button"
+    >
+        Clear
+    </button>
+
+</div>
             <div class="input-grid">
 
                 <div class="input-group">
@@ -225,7 +244,38 @@
         Classification threshold:
         <strong id="thresholdText">0.65</strong>
     </div>
+	<!-- BATCH RESULTS -->
 
+<div id="batchResults" class="batch-results hidden">
+
+    <div class="batch-results-header">
+        <h3>Transaction Results</h3>
+
+        <button id="downloadResults" class="download-btn">
+            Download Results CSV
+        </button>
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Transaction</th>
+                    <th>Fraud Probability</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+
+            <tbody id="resultsTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 </section>
 
 

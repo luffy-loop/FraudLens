@@ -213,24 +213,75 @@ document
 
         const transaction = {};
 
-        transaction.Time =
-            Number(
-                document.getElementById("Time").value
-            );
+        // Check Time
+        const timeValue =
+            document.getElementById("Time").value.trim();
 
-        for (let i = 1; i <= 28; i++) {
+        // Check Amount
+        const amountValue =
+            document.getElementById("Amount").value.trim();
 
-            transaction[`V${i}`] =
-                Number(
-                    document.getElementById(`V${i}`).value
-                );
+        if (timeValue === "" || amountValue === "") {
 
+            alert("Please enter Time and Amount.");
+
+            return;
         }
 
-        transaction.Amount =
-            Number(
-                document.getElementById("Amount").value
-            );
+        transaction.Time = Number(timeValue);
+
+        // Check V1 - V28
+        for (let i = 1; i <= 28; i++) {
+
+            const input =
+                document.getElementById(`V${i}`);
+
+            const value =
+                input.value.trim();
+
+            if (value === "") {
+
+                alert(`Please enter V${i}.`);
+
+                input.focus();
+
+                return;
+            }
+
+            const number =
+                Number(value);
+
+            if (!Number.isFinite(number)) {
+
+                alert(`Please enter a valid number for V${i}.`);
+
+                input.focus();
+
+                return;
+            }
+
+            transaction[`V${i}`] = number;
+        }
+
+        transaction.Amount = Number(amountValue);
+
+        if (!Number.isFinite(transaction.Time)) {
+
+            alert("Please enter a valid number for Time.");
+
+            document.getElementById("Time").focus();
+
+            return;
+        }
+
+        if (!Number.isFinite(transaction.Amount)) {
+
+            alert("Please enter a valid number for Amount.");
+
+            document.getElementById("Amount").focus();
+
+            return;
+        }
 
         predictTransaction(transaction);
 
@@ -632,5 +683,38 @@ document
                 "Please check the CSV format.";
 
         }
+
+    });
+
+// --------------------------------------------------
+// ADVANCED MODE HELPERS
+// --------------------------------------------------
+
+document
+    .getElementById("fillSampleButton")
+    .addEventListener("click", () => {
+
+        document.getElementById("Time").value =
+            sampleTransaction.Time;
+
+        for (let i = 1; i <= 28; i++) {
+
+            document.getElementById(`V${i}`).value =
+                sampleTransaction[`V${i}`];
+
+        }
+
+        document.getElementById("Amount").value =
+            sampleTransaction.Amount;
+    });
+
+
+document
+    .getElementById("clearFormButton")
+    .addEventListener("click", () => {
+
+        document
+            .getElementById("fraudForm")
+            .reset();
 
     });
