@@ -98,12 +98,29 @@ function showResult(data) {
 
     resultText.textContent = data.result;
 
+    resultText.classList.remove(
+    "result-legitimate",
+    "result-fraud"
+);
+
+if (data.prediction === 1) {
+    resultText.classList.add("result-fraud");
+} else {
+    resultText.classList.add("result-legitimate");
+}
+
     probabilityText.textContent =
         `${(data.fraud_probability * 100).toFixed(2)}%`;
 
     thresholdText.textContent =
-        data.threshold;
+    `${(data.threshold * 100).toFixed(0)}%`;
+    const riskFill =
+    document.querySelector(".risk-track-fill");
 
+if (riskFill) {
+    riskFill.style.width =
+        `${Math.min(data.fraud_probability * 100, 100)}%`;
+}
     document.getElementById(
         "totalTransactions"
     ).textContent = "1";
@@ -195,9 +212,13 @@ async function predictTransaction(transaction) {
 document
     .getElementById("demoButton")
     .addEventListener("click", () => {
-
         predictTransaction(sampleTransaction);
+    });
 
+document
+    .getElementById("heroDemoButton")
+    .addEventListener("click", () => {
+        predictTransaction(sampleTransaction);
     });
 
 
@@ -666,23 +687,51 @@ document
 
 
             thresholdText.textContent =
-                "0.65";
+                "60%";
 
 
         } catch (error) {
+    resultCard.classList.remove("hidden");
 
-            resultCard.classList.remove("hidden");
+    resultText.textContent =
+        "CSV ERROR";
 
-            resultText.textContent =
-                "CSV ERROR";
+    resultText.classList.remove(
+        "result-legitimate",
+        "result-fraud"
+    );
 
-            probabilityText.textContent =
-                error.message;
+    probabilityText.textContent =
+        "Validation failed";
 
-            thresholdText.textContent =
-                "Please check the CSV format.";
+    thresholdText.textContent =
+        "Check CSV";
 
-        }
+    const riskFill =
+        document.querySelector(".risk-track-fill");
+
+    if (riskFill) {
+        riskFill.style.width = "0%";
+    }
+
+    const existingError =
+        document.querySelector(".csv-error-message");
+
+    if (existingError) {
+        existingError.remove();
+    }
+
+    const errorMessage =
+        document.createElement("div");
+
+    errorMessage.className =
+        "csv-error-message";
+
+    errorMessage.textContent =
+        error.message;
+
+    resultCard.appendChild(errorMessage);
+}
 
     });
 
