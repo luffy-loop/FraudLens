@@ -29,9 +29,8 @@
             </p>
 
             <h2>
-                See the risk
-                <span>before it happens.</span>
-            </h2>
+    See the risk <span>before it happens.</span>
+</h2>
             <div class="dataset-note">
     Dataset format: anonymized PCA-transformed features V1–V28 + transaction time and amount.
 </div>
@@ -834,26 +833,39 @@
 
     <div class="investigation-report">
 
-        <div class="investigation-label">
-            INVESTIGATION REPORT
-        </div>
-
-        <div class="investigation-row">
-            <span>Classification Threshold</span>
-            <strong id="thresholdText">60%</strong>
-        </div>
-
-        <div class="investigation-row">
-            <span>Decision</span>
-            <strong id="decisionText">Awaiting analysis</strong>
-        </div>
-
-        <div class="investigation-action">
-            <span>Recommended Action</span>
-            <strong id="actionText">Review transaction</strong>
-        </div>
-
+    <div class="investigation-label">
+        INVESTIGATION REPORT
     </div>
+
+    <div class="investigation-row">
+        <span>Classification Threshold</span>
+        <strong id="thresholdText">60%</strong>
+    </div>
+
+    <div class="investigation-row">
+        <span>Decision</span>
+        <strong id="decisionText">Awaiting analysis</strong>
+    </div>
+
+    <div class="investigation-signals">
+        <div class="investigation-signals-header">
+            <span>RISK SIGNALS</span>
+            <small>MODEL-DRIVEN</small>
+        </div>
+
+        <div id="riskSignalsList" class="risk-signals-list">
+            <div class="risk-signal-empty">
+                Awaiting transaction analysis
+            </div>
+        </div>
+    </div>
+
+    <div class="investigation-action">
+        <span>Recommended Action</span>
+        <strong id="actionText">Review transaction</strong>
+    </div>
+
+</div>
 
 </div>
 

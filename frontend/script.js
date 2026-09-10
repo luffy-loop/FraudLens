@@ -99,43 +99,104 @@ function showResult(data) {
     resultText.textContent = data.result;
 
     resultText.classList.remove(
-    "result-legitimate",
-    "result-fraud"
-);
+        "result-legitimate",
+        "result-fraud"
+    );
 
-if (data.prediction === 1) {
-    resultText.classList.add("result-fraud");
-} else {
-    resultText.classList.add("result-legitimate");
-}
+    if (data.prediction === 1) {
+        resultText.classList.add("result-fraud");
+    } else {
+        resultText.classList.add("result-legitimate");
+    }
 
-probabilityText.textContent =
-    `${(data.fraud_probability * 100).toFixed(2)}%`;
+    probabilityText.textContent =
+        `${(data.fraud_probability * 100).toFixed(2)}%`;
 
-thresholdText.textContent =
-    `${(data.threshold * 100).toFixed(0)}%`;
+    thresholdText.textContent =
+        `${(data.threshold * 100).toFixed(0)}%`;
 
-const decisionText = document.getElementById("decisionText");
-const actionText = document.getElementById("actionText");
+    const decisionText =
+        document.getElementById("decisionText");
 
-if (decisionText) {
-    decisionText.textContent =
-        data.prediction === 1 ? "HIGH RISK" : "LOW RISK";
-}
+    const actionText =
+        document.getElementById("actionText");
 
-if (actionText) {
-    actionText.textContent =
-        data.prediction === 1
-            ? "Review transaction"
-            : "No immediate action";
-}
+    if (decisionText) {
+        decisionText.textContent =
+            data.prediction === 1
+                ? "HIGH RISK"
+                : "LOW RISK";
+    }
+
+    if (actionText) {
+        actionText.textContent =
+            data.prediction === 1
+                ? "Review transaction"
+                : "No immediate action";
+    }
+
+    /*
+     * Render model-driven risk signals
+     */
+
+    const riskSignalsList =
+        document.getElementById("riskSignalsList");
+
+    if (riskSignalsList) {
+
+        riskSignalsList.innerHTML = "";
+
+        if (
+            Array.isArray(data.risk_signals) &&
+            data.risk_signals.length > 0
+        ) {
+
+            data.risk_signals.forEach(signal => {
+
+                const signalItem =
+                    document.createElement("div");
+
+                signalItem.className =
+                    "risk-signal-item";
+
+                signalItem.innerHTML = `
+                    <div class="risk-signal-main">
+                        <strong>${signal.feature}</strong>
+                        <span class="risk-signal-level">
+                            ${signal.level}
+                        </span>
+                    </div>
+
+                    <div class="risk-signal-meta">
+                        Model importance:
+                        ${(signal.importance * 100).toFixed(2)}%
+                        <span>•</span>
+                        Deviation:
+                        ${signal.deviation.toFixed(2)}σ
+                    </div>
+                `;
+
+                riskSignalsList.appendChild(signalItem);
+            });
+
+        } else {
+
+            riskSignalsList.innerHTML = `
+                <div class="risk-signal-empty">
+                    No significant model signals detected
+                </div>
+            `;
+        }
+    }
+
     const riskFill =
-    document.querySelector(".risk-track-fill");
+        document.querySelector(".risk-track-fill");
 
-if (riskFill) {
-    riskFill.style.width =
-        `${Math.min(data.fraud_probability * 100, 100)}%`;
-}
+    if (riskFill) {
+        riskFill.style.width =
+            `${Math.min(data.fraud_probability * 100, 100)}%`;
+    }
+
     document.getElementById(
         "totalTransactions"
     ).textContent = "1";
@@ -164,7 +225,6 @@ if (riskFill) {
         batchResults.classList.add("hidden");
     }
 }
-
 
 // --------------------------------------------------
 // API REQUEST FOR SINGLE TRANSACTION

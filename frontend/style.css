@@ -1871,11 +1871,14 @@ footer {
 }
 
 .fraud-intro-subtitle {
-    margin-top: 28px;
+    margin-top: 42px;
     max-width: 620px;
+
     color: #8996aa;
     font-size: 16px;
     line-height: 1.7;
+
+    padding-bottom: 18px;
 }
 
 /* Card stack */
@@ -2022,7 +2025,7 @@ footer {
 @media (max-width: 900px) {
 
     .fraud-intro-copy {
-        top: 10%;
+        top: 11%;
         left: 6%;
         right: 6%;
     }
@@ -2528,32 +2531,124 @@ footer {
         font-size: 0.58rem;
     }
 }
-
-/* =========================================
-   SOURCE LINK
-   ========================================= */
+/* Source Link */
 
 .source-link {
     display: inline-flex;
     align-items: center;
-    margin-top: 18px;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
+    gap: 8px;
+
+    margin-top: 20px;
+    padding: 10px 15px;
+
+    border: 1px solid rgba(110, 168, 254, 0.22);
     border-radius: 9px;
-    color: var(--text);
-    background: rgba(17, 25, 37, 0.7);
-    font-size: 0.7rem;
+
+    color: #aebbd0;
+    background: rgba(17, 25, 37, 0.72);
+
+    font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-decoration: none;
+
     transition:
         transform 0.2s ease,
         border-color 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 .source-link:hover {
     transform: translateY(-2px);
-    border-color: rgba(110, 168, 254, 0.45);
-    background: rgba(110, 168, 254, 0.08);
+
+    border-color: rgba(110, 168, 254, 0.55);
+
+    color: #f4f7fb;
+
+    background: rgba(110, 168, 254, 0.09);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.2);
+}
+/* Risk Signals */
+
+.investigation-signals {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.investigation-signals-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.investigation-signals-header span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #8fa2bd;
+}
+
+.investigation-signals-header small {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+}
+
+.risk-signals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.risk-signal-item {
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.risk-signal-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.risk-signal-main strong {
+    color: #eef3fa;
+    font-size: 13px;
+}
+
+.risk-signal-level {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8fa2bd;
+}
+
+.risk-signal-meta {
+    margin-top: 6px;
+    color: #68778d;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.risk-signal-meta span {
+    margin: 0 5px;
+    color: #3f4d61;
+}
+
+.risk-signal-empty {
+    padding: 14px;
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: #68778d;
+    font-size: 11px;
 }
