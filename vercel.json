@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/predict",
-      "destination": "/api/index.py"
+      "destination": "/api/index"
     },
     {
       "source": "/predict_batch",
-      "destination": "/api/index.py"
+      "destination": "/api/index"
     }
   ]
 }
