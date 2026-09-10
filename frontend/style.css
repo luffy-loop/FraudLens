@@ -1885,7 +1885,7 @@ footer {
 
 .fraud-card-stack {
     position: absolute;
-    left: 69%;
+    left: 82%;
     top: 52%;
     width: 330px;
     height: 230px;
@@ -2039,10 +2039,13 @@ footer {
     }
 
     .fraud-card-stack {
-        left: 58%;
-        top: 65%;
-        transform: translate(-50%, -50%) scale(0.85);
-    }
+    position: absolute;
+    left: 82%;
+    top: 52%;
+    width: 330px;
+    height: 230px;
+    transform: translate(-50%, -50%);
+}
 }
 
 @media (max-width: 650px) {
