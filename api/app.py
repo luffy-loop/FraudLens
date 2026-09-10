@@ -28,13 +28,76 @@ CORS(app)
 
 
 # Load trained FraudLens model
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 model_package = joblib.load(
-    "models/fraud_detection_model.joblib"
+    BASE_DIR / "models" / "fraud_detection_model.joblib"
 )
 
 model = model_package["model"]
 threshold = model_package["threshold"]
 
+FEATURE_SIGNAL_COUNT = 3
+
+FEATURE_LABELS = {
+    "V14": "V14",
+    "V10": "V10",
+    "V12": "V12",
+    "V17": "V17",
+    "V4": "V4",
+    "V3": "V3",
+    "V11": "V11",
+    "V16": "V16",
+    "V2": "V2",
+    "V9": "V9",
+}
+
+
+def get_risk_signals(features):
+    preprocessor = model.named_steps["preprocessor"]
+    classifier = model.named_steps["model"]
+
+    transformed = preprocessor.transform(features)
+
+    feature_names = preprocessor.get_feature_names_out()
+    importances = classifier.feature_importances_
+
+    ranked_features = sorted(
+        zip(feature_names, importances, transformed[0]),
+        key=lambda item: item[1],
+        reverse=True
+    )
+
+    signals = []
+
+    for feature_name, importance, value in ranked_features:
+        clean_name = feature_name.replace("num__", "")
+
+        if clean_name not in FEATURE_LABELS:
+            continue
+
+        deviation = abs(float(value))
+
+        if deviation >= 2:
+            level = "High deviation"
+        elif deviation >= 1:
+            level = "Moderate deviation"
+        else:
+            level = "Low deviation"
+
+        signals.append({
+            "feature": FEATURE_LABELS[clean_name],
+            "importance": round(float(importance), 4),
+            "deviation": round(deviation, 2),
+            "level": level
+        })
+
+        if len(signals) == FEATURE_SIGNAL_COUNT:
+            break
+
+    return signals
 
 @app.route("/", methods=["GET"])
 def home():
@@ -91,11 +154,14 @@ def predict():
 
         result = "FRAUD" if prediction == 1 else "LEGITIMATE"
 
+        risk_signals = get_risk_signals(features)
+
         return jsonify({
             "prediction": prediction,
             "result": result,
             "fraud_probability": round(float(probability), 6),
-            "threshold": threshold
+            "threshold": threshold,
+            "risk_signals": risk_signals
         })
 
     except Exception:
