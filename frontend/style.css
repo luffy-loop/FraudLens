@@ -1798,7 +1798,7 @@ footer {
 }
 
 .csv-error-message {
-    margin-top: 18px;
+    margin-top: 20px;
     padding: 15px 17px;
 
     border: 1px solid rgba(255, 93, 114, 0.22);
@@ -1885,10 +1885,10 @@ footer {
 
 .fraud-card-stack {
     position: absolute;
-    left: 95%;
+    left: 78%;
     top: 52%;
-    width: 330px;
-    height: 230px;
+    width: 450px;
+    height: 320px;
     transform: translate(-50%, -50%);
     z-index: 3;
 }
@@ -1897,8 +1897,8 @@ footer {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 330px;
-    min-height: 190px;
+    width: 420px;
+    min-height: 280px;
     padding: 28px;
 
     display: flex;
@@ -2042,8 +2042,8 @@ footer {
     position: absolute;
     left: 82%;
     top: 52%;
-    width: 330px;
-    height: 230px;
+    width: 470px;
+    height: 320px;
     transform: translate(-50%, -50%);
 }
 }
@@ -2541,7 +2541,7 @@ footer {
     align-items: center;
     gap: 8px;
 
-    margin-top: 20px;
+    margin-top: 40px;
     padding: 10px 15px;
 
     border: 1px solid rgba(110, 168, 254, 0.22);
