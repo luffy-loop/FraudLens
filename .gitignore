@@ -3,3 +3,5 @@ data/raw/creditcard.csv
 .venv-1/
 __pycache__/
 .ipynb_checkpoints/
+.vercel
+.env*
