@@ -832,16 +832,16 @@ function updateFraudIntro() {
          * As the user scrolls, they spread outward.
          */
         const spread =
-            Math.min(
-                1,
-                Math.max(
-                    0,
-                    (progress - 0.05) / 0.7
-                )
-            );
+    Math.min(
+        1,
+        Math.max(
+            0,
+            (progress - 0.05) / 0.95
+        )
+    );
 
         const x =
-            position.x * spread;
+    -position.x * spread;
 
         const y =
             position.y * spread;
