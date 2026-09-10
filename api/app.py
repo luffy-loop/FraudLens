@@ -4,7 +4,10 @@ import joblib
 import pandas as pd
 import math
 
+
 MAX_BATCH_SIZE = 100
+
+
 REQUIRED_FEATURES = [
     "Time",
     "V1", "V2", "V3", "V4", "V5", "V6", "V7",
@@ -95,10 +98,11 @@ def predict():
             "threshold": threshold
         })
 
-    except Exception as e:
+    except Exception:
+        app.logger.exception("Prediction failed")
         return jsonify({
-            "error": str(e)
-        }), 400
+            "error": "Prediction failed"
+        }), 500
 
 
 @app.route("/predict_batch", methods=["POST"])
@@ -111,13 +115,15 @@ def predict_batch():
         }), 400
 
     transactions = data["transactions"]
-    if len(transactions) > MAX_BATCH_SIZE:
-        return jsonify({
-            "error": f"Maximum batch size is {MAX_BATCH_SIZE} transactions"
-        }), 400
+
     if not isinstance(transactions, list) or len(transactions) == 0:
         return jsonify({
             "error": "Transactions must be a non-empty list"
+        }), 400
+
+    if len(transactions) > MAX_BATCH_SIZE:
+        return jsonify({
+            "error": f"Maximum batch size is {MAX_BATCH_SIZE} transactions"
         }), 400
 
     results = []
@@ -147,7 +153,10 @@ def predict_batch():
                 for value in values
             ):
                 return jsonify({
-                    "error": f"All feature values must be finite numbers in transaction {index + 1}"
+                    "error": (
+                        "All feature values must be finite numbers "
+                        f"in transaction {index + 1}"
+                    )
                 }), 400
 
             features = pd.DataFrame(
@@ -173,10 +182,11 @@ def predict_batch():
             "results": results
         })
 
-    except Exception as e:
+    except Exception:
+        app.logger.exception("Batch prediction failed")
         return jsonify({
-            "error": str(e)
-        }), 400
+            "error": "Batch prediction failed"
+        }), 500
 
 
 if __name__ == "__main__":
