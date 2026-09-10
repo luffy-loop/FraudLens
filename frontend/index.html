@@ -32,6 +32,17 @@
                 See the risk
                 <span>before it happens.</span>
             </h2>
+            <div class="dataset-note">
+    Dataset format: anonymized PCA-transformed features V1–V28 + transaction time and amount.
+</div>
+<a
+    class="source-link"
+    href="https://github.com/luffy-loop/FraudLens"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    VIEW SOURCE →
+</a>
 
             <p class="fraud-intro-subtitle">
                 FraudLens analyzes transaction behavior with machine learning
@@ -239,6 +250,142 @@
 
     </section>
 
+    <section class="model-explainer">
+
+    <div class="model-explainer-header">
+        <span class="section-eyebrow">MODEL INTELLIGENCE</span>
+        <h2>Why Random Forest?</h2>
+        <p>
+            FraudLens uses Random Forest because fraud detection benefits
+            from an ensemble model that can capture complex relationships
+            across transaction features while remaining robust to noisy data.
+        </p>
+    </div>
+
+    <div class="model-explainer-grid">
+
+        <div class="model-reason">
+            <span class="reason-number">01</span>
+            <div>
+                <h3>Handles complex patterns</h3>
+                <p>
+                    Multiple decision trees work together to identify
+                    non-linear patterns that a single model may miss.
+                </p>
+            </div>
+        </div>
+
+        <div class="model-reason">
+            <span class="reason-number">02</span>
+            <div>
+                <h3>Robust ensemble</h3>
+                <p>
+                    Combining many trees makes the model less dependent
+                    on any single decision boundary.
+                </p>
+            </div>
+        </div>
+
+        <div class="model-reason">
+            <span class="reason-number">03</span>
+            <div>
+                <h3>Useful for fraud screening</h3>
+                <p>
+                    Fraud datasets can contain highly imbalanced classes
+                    and complicated feature interactions, making ensemble
+                    methods a practical choice.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+    <section class="performance-section">
+
+    <div class="performance-header">
+        <div>
+            <span class="section-eyebrow">MODEL PERFORMANCE</span>
+            <h2>Random Forest at a glance</h2>
+        </div>
+
+        <span class="performance-note">
+            Test set · threshold 0.60
+        </span>
+    </div>
+
+    <div class="performance-grid">
+
+        <div class="performance-card">
+            <span>PRECISION</span>
+            <strong>86.59%</strong>
+            <small>Of flagged transactions, correctly identified</small>
+        </div>
+
+        <div class="performance-card">
+            <span>RECALL</span>
+            <strong>74.74%</strong>
+            <small>Fraud cases successfully detected</small>
+        </div>
+
+        <div class="performance-card">
+            <span>F1 SCORE</span>
+            <strong>80.23%</strong>
+            <small>Balance between precision and recall</small>
+        </div>
+
+        <div class="performance-card">
+            <span>ROC-AUC</span>
+            <strong>97.46%</strong>
+            <small>Overall ranking performance</small>
+        </div>
+
+    </div>
+
+    <div class="confusion-matrix">
+
+        <div class="confusion-header">
+            <div>
+                <span class="section-eyebrow">CONFUSION MATRIX</span>
+                <h3>Classification outcomes</h3>
+            </div>
+
+            <span class="performance-note">
+                56,746 test transactions
+            </span>
+        </div>
+
+        <div class="matrix-grid">
+
+            <div class="matrix-label"></div>
+            <div class="matrix-label">PREDICTED LEGIT</div>
+            <div class="matrix-label">PREDICTED FRAUD</div>
+
+            <div class="matrix-label">ACTUAL LEGIT</div>
+            <div class="matrix-cell matrix-correct">
+                <strong>56,640</strong>
+                <span>True Negative</span>
+            </div>
+            <div class="matrix-cell">
+                <strong>11</strong>
+                <span>False Positive</span>
+            </div>
+
+            <div class="matrix-label">ACTUAL FRAUD</div>
+            <div class="matrix-cell">
+                <strong>24</strong>
+                <span>False Negative</span>
+            </div>
+            <div class="matrix-cell matrix-fraud">
+                <strong>71</strong>
+                <span>True Positive</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
     <!-- =========================================
          ANALYSIS WORKSPACE
@@ -676,19 +823,39 @@
 
             <div class="risk-score">
 
-                <span>
-                    FRAUD PROBABILITY
-                </span>
+    <div class="risk-score-header">
+        <span>FRAUD PROBABILITY</span>
+        <strong id="probabilityText">—</strong>
+    </div>
 
-                <strong id="probabilityText">
-                    —
-                </strong>
+    <div class="risk-track">
+        <div class="risk-track-fill"></div>
+    </div>
 
-                <div class="risk-track">
-                    <div class="risk-track-fill"></div>
-                </div>
+    <div class="investigation-report">
 
-            </div>
+        <div class="investigation-label">
+            INVESTIGATION REPORT
+        </div>
+
+        <div class="investigation-row">
+            <span>Classification Threshold</span>
+            <strong id="thresholdText">60%</strong>
+        </div>
+
+        <div class="investigation-row">
+            <span>Decision</span>
+            <strong id="decisionText">Awaiting analysis</strong>
+        </div>
+
+        <div class="investigation-action">
+            <span>Recommended Action</span>
+            <strong id="actionText">Review transaction</strong>
+        </div>
+
+    </div>
+
+</div>
 
 
             <div class="threshold-box">

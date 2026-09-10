@@ -109,11 +109,26 @@ if (data.prediction === 1) {
     resultText.classList.add("result-legitimate");
 }
 
-    probabilityText.textContent =
-        `${(data.fraud_probability * 100).toFixed(2)}%`;
+probabilityText.textContent =
+    `${(data.fraud_probability * 100).toFixed(2)}%`;
 
-    thresholdText.textContent =
+thresholdText.textContent =
     `${(data.threshold * 100).toFixed(0)}%`;
+
+const decisionText = document.getElementById("decisionText");
+const actionText = document.getElementById("actionText");
+
+if (decisionText) {
+    decisionText.textContent =
+        data.prediction === 1 ? "HIGH RISK" : "LOW RISK";
+}
+
+if (actionText) {
+    actionText.textContent =
+        data.prediction === 1
+            ? "Review transaction"
+            : "No immediate action";
+}
     const riskFill =
     document.querySelector(".risk-track-fill");
 
