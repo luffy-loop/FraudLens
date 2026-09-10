@@ -2,13 +2,28 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import joblib
 import pandas as pd
+import math
+
+
+REQUIRED_FEATURES = [
+    "Time",
+    "V1", "V2", "V3", "V4", "V5", "V6", "V7",
+    "V8", "V9", "V10", "V11", "V12", "V13", "V14",
+    "V15", "V16", "V17", "V18", "V19", "V20", "V21",
+    "V22", "V23", "V24", "V25", "V26", "V27", "V28",
+    "Amount"
+]
+
 
 app = Flask(
     __name__,
     static_folder="../frontend",
     static_url_path=""
 )
+
 CORS(app)
+
+
 # Load trained FraudLens model
 model_package = joblib.load(
     "models/fraud_detection_model.joblib"
@@ -29,6 +44,7 @@ def health():
         "status": "healthy"
     })
 
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
@@ -38,17 +54,9 @@ def predict():
             "error": "No JSON data provided"
         }), 400
 
-    required_features = [
-        "Time",
-        "V1", "V2", "V3", "V4", "V5", "V6", "V7",
-        "V8", "V9", "V10", "V11", "V12", "V13", "V14",
-        "V15", "V16", "V17", "V18", "V19", "V20", "V21",
-        "V22", "V23", "V24", "V25", "V26", "V27", "V28",
-        "Amount"
-    ]
-
     missing_features = [
-        feature for feature in required_features
+        feature
+        for feature in REQUIRED_FEATURES
         if feature not in data
     ]
 
@@ -59,9 +67,19 @@ def predict():
         }), 400
 
     try:
+        values = [data[feature] for feature in REQUIRED_FEATURES]
+
+        if not all(
+            isinstance(value, (int, float)) and math.isfinite(value)
+            for value in values
+        ):
+            return jsonify({
+                "error": "All feature values must be finite numbers"
+            }), 400
+
         features = pd.DataFrame(
-            [[data[feature] for feature in required_features]],
-            columns=required_features
+            [values],
+            columns=REQUIRED_FEATURES
         )
 
         probability = model.predict_proba(features)[0][1]
@@ -82,9 +100,9 @@ def predict():
             "error": str(e)
         }), 400
 
+
 @app.route("/predict_batch", methods=["POST"])
 def predict_batch():
-
     data = request.get_json()
 
     if not data or "transactions" not in data:
@@ -99,24 +117,14 @@ def predict_batch():
             "error": "Transactions must be a non-empty list"
         }), 400
 
-    required_features = [
-        "Time",
-        "V1", "V2", "V3", "V4", "V5", "V6", "V7",
-        "V8", "V9", "V10", "V11", "V12", "V13", "V14",
-        "V15", "V16", "V17", "V18", "V19", "V20", "V21",
-        "V22", "V23", "V24", "V25", "V26", "V27", "V28",
-        "Amount"
-    ]
-
     results = []
 
     try:
-
         for index, transaction in enumerate(transactions):
 
             missing_features = [
                 feature
-                for feature in required_features
+                for feature in REQUIRED_FEATURES
                 if feature not in transaction
             ]
 
@@ -126,9 +134,22 @@ def predict_batch():
                     "missing_features": missing_features
                 }), 400
 
+            values = [
+                transaction[feature]
+                for feature in REQUIRED_FEATURES
+            ]
+
+            if not all(
+                isinstance(value, (int, float)) and math.isfinite(value)
+                for value in values
+            ):
+                return jsonify({
+                    "error": f"All feature values must be finite numbers in transaction {index + 1}"
+                }), 400
+
             features = pd.DataFrame(
-                [[transaction[feature] for feature in required_features]],
-                columns=required_features
+                [values],
+                columns=REQUIRED_FEATURES
             )
 
             probability = model.predict_proba(features)[0][1]
@@ -150,10 +171,10 @@ def predict_batch():
         })
 
     except Exception as e:
-
         return jsonify({
             "error": str(e)
         }), 400
+
 
 if __name__ == "__main__":
     app.run(debug=True)
