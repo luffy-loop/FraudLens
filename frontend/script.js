@@ -767,3 +767,125 @@ document
             .reset();
 
     });
+/* =========================================================
+   FRAUDLENS INTRO — SCROLL STACK ANIMATION
+   ========================================================= */
+
+const fraudIntro = document.getElementById("fraudIntro");
+const fraudStackCards =
+    document.querySelectorAll(".fraud-stack-card");
+
+const fraudIntroScroll =
+    document.querySelector(".fraud-intro-scroll");
+
+
+function updateFraudIntro() {
+
+    if (!fraudIntro || fraudStackCards.length === 0) {
+        return;
+    }
+
+    const rect = fraudIntro.getBoundingClientRect();
+    const scrollRange =
+        fraudIntro.offsetHeight - window.innerHeight;
+
+    let progress =
+        -rect.top / scrollRange;
+
+    progress = Math.max(
+        0,
+        Math.min(1, progress)
+    );
+
+
+    const positions = [
+    { x: -70, y: -45, rotate: -5 },
+    { x: -25, y: -10, rotate: -2 },
+    { x: 20, y: 20, rotate: 2 },
+    { x: 60, y: 48, rotate: 5 },
+    { x: 95, y: 70, rotate: 7 }
+];
+
+
+    fraudStackCards.forEach((card, index) => {
+
+        const position =
+            positions[index] || positions[0];
+
+        /*
+         * Cards begin stacked together.
+         * As the user scrolls, they spread outward.
+         */
+        const spread =
+            Math.min(
+                1,
+                Math.max(
+                    0,
+                    (progress - 0.05) / 0.7
+                )
+            );
+
+        const x =
+            position.x * spread;
+
+        const y =
+            position.y * spread;
+
+        const rotate =
+            position.rotate * spread;
+
+        const scale =
+            1 - (index * 0.015 * (1 - spread));
+
+        card.style.transform = `
+            translate(-50%, -50%)
+            translate(${x}px, ${y}px)
+            rotate(${rotate}deg)
+            scale(${scale})
+        `;
+
+    });
+
+
+    if (fraudIntroScroll) {
+
+        fraudIntroScroll.style.opacity =
+            String(Math.max(0, 1 - progress * 4));
+
+    }
+}
+
+
+let fraudIntroTicking = false;
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if (!fraudIntroTicking) {
+
+            window.requestAnimationFrame(() => {
+
+                updateFraudIntro();
+
+                fraudIntroTicking = false;
+
+            });
+
+            fraudIntroTicking = true;
+        }
+
+    },
+    { passive: true }
+);
+
+
+window.addEventListener(
+    "resize",
+    updateFraudIntro
+);
+
+
+/* Initial position */
+updateFraudIntro();
+    

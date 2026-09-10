@@ -1811,3 +1811,280 @@ footer {
     font-size: 12px;
     line-height: 1.6;
 }
+/* =========================================================
+   FRAUDLENS INTRO — SCROLL STACK
+   ========================================================= */
+
+.fraud-intro {
+    position: relative;
+    height: 185vh;
+    width: 100%;
+}
+
+.fraud-intro-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    min-height: 700px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(61, 126, 255, 0.08),
+            transparent 38%
+        ),
+        #070a10;
+}
+
+.fraud-intro-copy {
+    position: absolute;
+    top: 15%;
+    left: 7%;
+    max-width: 720px;
+    z-index: 2;
+}
+
+.fraud-intro-eyebrow {
+    margin: 0 0 18px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+.fraud-intro-copy h2 {
+    margin: 0;
+    max-width: 760px;
+    font-size: clamp(48px, 7vw, 100px);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+    font-weight: 800;
+    color: #f4f7fb;
+}
+
+.fraud-intro-copy h2 span {
+    display: block;
+    color: #8794a9;
+}
+
+.fraud-intro-subtitle {
+    margin-top: 28px;
+    max-width: 620px;
+    color: #8996aa;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Card stack */
+
+.fraud-card-stack {
+    position: absolute;
+    left: 69%;
+    top: 52%;
+    width: 330px;
+    height: 230px;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.fraud-stack-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 330px;
+    min-height: 190px;
+    padding: 28px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 31, 49, 0.98),
+            rgba(10, 15, 24, 0.98)
+        );
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.4);
+
+    transform:
+        translate(-50%, -50%)
+        translate(0, 0)
+        rotate(0deg);
+
+    transform-origin: center center;
+
+    transition:
+        transform 0.12s linear,
+        box-shadow 0.3s ease;
+}
+
+.fraud-stack-card:nth-child(1) {
+    z-index: 5;
+}
+
+.fraud-stack-card:nth-child(2) {
+    z-index: 4;
+}
+
+.fraud-stack-card:nth-child(3) {
+    z-index: 3;
+}
+
+.fraud-stack-card:nth-child(4) {
+    z-index: 2;
+}
+
+.fraud-stack-card:nth-child(5) {
+    z-index: 1;
+}
+
+.stack-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+}
+
+.fraud-stack-card strong {
+    display: block;
+    margin-top: 22px;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #f4f7fb;
+}
+
+.fraud-stack-card small {
+    margin-top: 12px;
+    color: #718096;
+    font-size: 12px;
+}
+
+/* Individual card accents */
+
+.card-risk {
+    border-color: rgba(61, 126, 255, 0.25);
+}
+
+.card-model {
+    border-color: rgba(66, 211, 146, 0.18);
+}
+
+.card-features {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.card-analysis {
+    border-color: rgba(61, 126, 255, 0.18);
+}
+
+.card-detection {
+    border-color: rgba(66, 211, 146, 0.2);
+}
+
+/* Scroll indicator */
+
+.fraud-intro-scroll {
+    position: absolute;
+    bottom: 42px;
+    left: 7%;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #69768a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+
+    transition: opacity 0.2s linear;
+}
+
+.scroll-arrow {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--accent);
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .fraud-intro-copy {
+        top: 10%;
+        left: 6%;
+        right: 6%;
+    }
+
+    .fraud-intro-copy h2 {
+        font-size: clamp(44px, 10vw, 72px);
+    }
+
+    .fraud-intro-subtitle {
+        max-width: 520px;
+    }
+
+    .fraud-card-stack {
+        left: 58%;
+        top: 65%;
+        transform: translate(-50%, -50%) scale(0.85);
+    }
+}
+
+@media (max-width: 650px) {
+
+    .fraud-intro {
+        height: 175vh;
+    }
+
+    .fraud-intro-sticky {
+        min-height: 650px;
+    }
+
+    .fraud-intro-copy {
+        top: 9%;
+    }
+
+    .fraud-intro-copy h2 {
+        font-size: clamp(40px, 13vw, 60px);
+    }
+
+    .fraud-intro-subtitle {
+        font-size: 14px;
+    }
+
+    .fraud-card-stack {
+        left: 50%;
+        top: 68%;
+        transform: translate(-50%, -50%) scale(0.72);
+    }
+
+    .fraud-intro-scroll {
+        left: 6%;
+        bottom: 25px;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .fraud-stack-card {
+        transition: none;
+    }
+
+    .fraud-intro-scroll {
+        transition: none;
+    }
+}
