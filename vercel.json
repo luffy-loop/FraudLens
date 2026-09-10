@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/index.py": {
-      "includeFiles": ["models/fraud_detection_model.joblib"]
+      "includeFiles": "models/fraud_detection_model.joblib"
     }
   },
   "rewrites": [
