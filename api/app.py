@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
 import math
 
-
+MAX_BATCH_SIZE = 100
 REQUIRED_FEATURES = [
     "Time",
     "V1", "V2", "V3", "V4", "V5", "V6", "V7",
@@ -111,7 +111,10 @@ def predict_batch():
         }), 400
 
     transactions = data["transactions"]
-
+    if len(transactions) > MAX_BATCH_SIZE:
+        return jsonify({
+            "error": f"Maximum batch size is {MAX_BATCH_SIZE} transactions"
+        }), 400
     if not isinstance(transactions, list) or len(transactions) == 0:
         return jsonify({
             "error": "Transactions must be a non-empty list"
