@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="FraudLens — transaction intelligence and machine learning powered fraud analysis."
+    >
+
+    <title>FraudLens | Transaction Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<!-- FRAUDLENS INTRO -->
+<section class="fraud-intro" id="fraudIntro">
+
+    <div class="fraud-intro-sticky">
+
+        <div class="fraud-intro-copy">
+            <p class="fraud-intro-eyebrow">
+                TRANSACTION INTELLIGENCE
+            </p>
+
+            <h2>
+                See the risk
+                <span>before it happens.</span>
+            </h2>
+
+            <p class="fraud-intro-subtitle">
+                FraudLens analyzes transaction behavior with machine learning
+                to identify potentially fraudulent activity.
+            </p>
+        </div>
+
+        <div class="fraud-card-stack">
+
+            <div class="fraud-stack-card card-risk">
+                <span class="stack-card-label">RISK</span>
+                <strong>0.60</strong>
+                <small>Classification threshold</small>
+            </div>
+
+            <div class="fraud-stack-card card-model">
+                <span class="stack-card-label">MODEL</span>
+                <strong>RANDOM FOREST</strong>
+                <small>Ensemble classifier</small>
+            </div>
+
+            <div class="fraud-stack-card card-features">
+                <span class="stack-card-label">FEATURES</span>
+                <strong>30</strong>
+                <small>Transaction attributes</small>
+            </div>
+
+            <div class="fraud-stack-card card-analysis">
+                <span class="stack-card-label">ANALYSIS</span>
+                <strong>LIVE</strong>
+                <small>Prediction API connected</small>
+            </div>
+
+            <div class="fraud-stack-card card-detection">
+                <span class="stack-card-label">DETECTION</span>
+                <strong>FRAUD / LEGIT</strong>
+                <small>Probability-based classification</small>
+            </div>
+
+        </div>
+
+        <div class="fraud-intro-scroll">
+            <span>SCROLL TO EXPLORE</span>
+            <span class="scroll-arrow">↓</span>
+        </div>
+
+    </div>
+
+</section>
+<main class="container">
+
+    <!-- =========================================
+         TOP BAR
+         ========================================= -->
+
+    <nav class="topbar">
+
+        <div class="brand">
+            <span class="brand-mark">F</span>
+
+            <div>
+                <strong>FraudLens</strong>
+                <span>Transaction Intelligence</span>
+            </div>
+        </div>
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+            <span>API ONLINE</span>
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         HERO
+         ========================================= -->
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                FINANCIAL RISK ANALYTICS
+            </p>
+
+            <h1>
+                See the risk<br>
+                <span>before it happens.</span>
+            </h1>
+
+            <p class="subtitle">
+                FraudLens analyzes transaction behavior using a
+                trained machine-learning model to identify
+                potentially fraudulent activity.
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+                class="primary-button hero-button"
+                id="heroDemoButton"
+                >
+                    Run Quick Analysis
+                    <span>→</span>
+                </button>
+
+                <div class="engine-note">
+                    <span class="status-dot"></span>
+                    Random Forest Engine
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-orbit">
+
+            <div class="orbit-ring ring-one"></div>
+            <div class="orbit-ring ring-two"></div>
+
+            <div class="risk-core">
+                <span>RISK</span>
+                <strong>0.60</strong>
+                <small>THRESHOLD</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         OVERVIEW METRICS
+         ========================================= -->
+
+    <section class="overview-grid">
+
+        <div class="overview-card">
+
+            <span class="metric-label">
+                MODEL
+            </span>
+
+            <strong>
+                RANDOM FOREST
+            </strong>
+
+            <span class="metric-detail">
+                Ensemble classifier
+            </span>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <span class="metric-label">
+                FEATURES
+            </span>
+
+            <strong>
+                30
+            </strong>
+
+            <span class="metric-detail">
+                Transaction attributes
+            </span>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <span class="metric-label">
+                THRESHOLD
+            </span>
+
+            <strong>
+                0.60
+            </strong>
+
+            <span class="metric-detail">
+                Classification boundary
+            </span>
+
+        </div>
+
+
+        <div class="overview-card">
+
+            <span class="metric-label">
+                STATUS
+            </span>
+
+            <strong class="online-text">
+                OPERATIONAL
+            </strong>
+
+            <span class="metric-detail">
+                Prediction API available
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ANALYSIS WORKSPACE
+         ========================================= -->
+
+    <section class="workspace">
+
+        <div class="workspace-heading">
+
+            <div>
+                <p class="panel-label">
+                    ANALYSIS WORKSPACE
+                </p>
+
+                <h2>
+                    Choose how to investigate
+                </h2>
+
+                <p>
+                    Start with a quick sample, analyze a transaction
+                    manually, or process a complete CSV dataset.
+                </p>
+            </div>
+
+            <div class="workspace-index">
+                01 / 03
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             MODE SELECTION
+             ===================================== -->
+
+        <div class="mode-grid">
+
+            <button
+                class="mode-card active"
+                data-mode="demo"
+            >
+
+                <div class="mode-card-top">
+                    <span class="mode-number">01</span>
+                    <span class="mode-arrow">↗</span>
+                </div>
+
+                <div class="mode-icon demo-icon">
+                    ◉
+                </div>
+
+                <span class="mode-title">
+                    Quick Analysis
+                </span>
+
+                <span class="mode-text">
+                    Run a built-in transaction through
+                    the complete prediction pipeline.
+                </span>
+
+                <span class="mode-action">
+                    START ANALYSIS →
+                </span>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                data-mode="csv"
+            >
+
+                <div class="mode-card-top">
+                    <span class="mode-number">02</span>
+                    <span class="mode-arrow">↗</span>
+                </div>
+
+                <div class="mode-icon">
+                    ▦
+                </div>
+
+                <span class="mode-title">
+                    Batch Analysis
+                </span>
+
+                <span class="mode-text">
+                    Upload transaction data and
+                    analyze multiple records at once.
+                </span>
+
+                <span class="mode-action">
+                    UPLOAD DATA →
+                </span>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                data-mode="advanced"
+            >
+
+                <div class="mode-card-top">
+                    <span class="mode-number">03</span>
+                    <span class="mode-arrow">↗</span>
+                </div>
+
+                <div class="mode-icon">
+                    ⌘
+                </div>
+
+                <span class="mode-title">
+                    Transaction Inspector
+                </span>
+
+                <span class="mode-text">
+                    Inspect all 30 model features
+                    and submit a custom transaction.
+                </span>
+
+                <span class="mode-action">
+                    INSPECT TRANSACTION →
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- =====================================
+             QUICK DEMO
+             ===================================== -->
+
+        <section
+            id="demoMode"
+            class="analysis-panel mode-panel"
+        >
+
+            <div class="analysis-panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        QUICK ANALYSIS
+                    </p>
+
+                    <h2>
+                        Test the FraudLens engine
+                    </h2>
+
+                    <p>
+                        Use a known transaction example to
+                        verify the complete prediction pipeline.
+                    </p>
+                </div>
+
+                <div class="panel-badge">
+                    DEMO DATA
+                </div>
+
+            </div>
+
+            <div class="analysis-action-row">
+
+                <div class="action-description">
+                    <span class="action-number">
+                        01
+                    </span>
+
+                    <div>
+                        <strong>
+                            Ready for analysis
+                        </strong>
+
+                        <p>
+                            The sample contains all 30
+                            required model features.
+                        </p>
+                    </div>
+                </div>
+
+                <button
+                    id="demoButton"
+                    class="primary-button"
+                >
+                    Analyze Sample
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             CSV MODE
+             ===================================== -->
+
+        <section
+            id="csvMode"
+            class="analysis-panel mode-panel hidden"
+        >
+
+            <div class="analysis-panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        BATCH ANALYSIS
+                    </p>
+
+                    <h2>
+                        Analyze transaction data
+                    </h2>
+
+                    <p>
+                        Upload a CSV containing Time,
+                        V1–V28 and Amount.
+                    </p>
+                </div>
+
+                <div class="panel-badge">
+                    MAX 100 / REQUEST
+                </div>
+
+            </div>
+
+            <div class="upload-zone">
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <div class="upload-copy">
+
+                    <strong>
+                        Select transaction CSV
+                    </strong>
+
+                    <p>
+                        Required columns:
+                        Time, V1–V28, Amount
+                    </p>
+
+                </div>
+
+                <label
+                    for="csvFile"
+                    class="upload-button"
+                >
+                    Choose File
+                </label>
+
+                <input
+                    type="file"
+                    id="csvFile"
+                    accept=".csv"
+                >
+
+            </div>
+
+            <p class="file-help">
+                FraudLens validates every transaction before
+                sending the batch to the prediction API.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================
+             ADVANCED MODE
+             ===================================== -->
+
+        <section
+            id="advancedMode"
+            class="analysis-panel mode-panel hidden"
+        >
+
+            <div class="analysis-panel-header">
+
+                <div>
+                    <p class="panel-label">
+                        TRANSACTION INSPECTOR
+                    </p>
+
+                    <h2>
+                        Inspect transaction features
+                    </h2>
+
+                    <p>
+                        Enter the complete feature set used by
+                        the fraud detection model.
+                    </p>
+                </div>
+
+                <div class="panel-badge">
+                    30 FEATURES
+                </div>
+
+            </div>
+
+
+            <form id="fraudForm">
+
+                <div class="advanced-actions">
+
+                    <button
+                        type="button"
+                        id="fillSampleButton"
+                        class="secondary-button"
+                    >
+                        Fill Sample
+                    </button>
+
+                    <button
+                        type="button"
+                        id="clearFormButton"
+                        class="secondary-button"
+                    >
+                        Clear Form
+                    </button>
+
+                </div>
+
+
+                <div class="input-section-label">
+                    TRANSACTION FEATURES
+                </div>
+
+
+                <div class="input-grid">
+
+                    <div class="input-group featured-input">
+                        <label for="Time">
+                            Time
+                        </label>
+
+                        <input
+                            type="number"
+                            id="Time"
+                            step="any"
+                            placeholder="0.00"
+                        >
+                    </div>
+
+
+                    <script>
+                        for (let i = 1; i <= 28; i++) {
+                            document.write(`
+                                <div class="input-group">
+                                    <label for="V${i}">
+                                        V${i}
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="V${i}"
+                                        step="any"
+                                        placeholder="0.00"
+                                    >
+                                </div>
+                            `);
+                        }
+                    </script>
+
+
+                    <div class="input-group featured-input">
+                        <label for="Amount">
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="Amount"
+                            step="any"
+                            placeholder="0.00"
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="form-footer">
+
+                    <div>
+                        <span class="form-status-dot"></span>
+                        All fields are validated before submission.
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Analyze Transaction
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </section>
+
+
+    <!-- =========================================
+         RESULT
+         ========================================= -->
+
+    <section
+        id="result"
+        class="result-card hidden"
+    >
+
+        <div class="result-header">
+
+            <div>
+                <p class="result-label">
+                    ANALYSIS RESULT
+                </p>
+
+                <h2 id="resultText">
+                    Analyzing...
+                </h2>
+            </div>
+
+            <div class="result-live">
+                <span class="status-dot"></span>
+                MODEL RESPONSE
+            </div>
+
+        </div>
+
+
+        <div class="result-main">
+
+            <div class="risk-score">
+
+                <span>
+                    FRAUD PROBABILITY
+                </span>
+
+                <strong id="probabilityText">
+                    —
+                </strong>
+
+                <div class="risk-track">
+                    <div class="risk-track-fill"></div>
+                </div>
+
+            </div>
+
+
+            <div class="threshold-box">
+
+                <span>
+                    CLASSIFICATION THRESHOLD
+                </span>
+
+                <strong id="thresholdText">
+                    0.60
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <span>
+                    TRANSACTIONS
+                </span>
+
+                <strong id="totalTransactions">
+                    —
+                </strong>
+            </div>
+
+
+            <div class="stat-card fraud-stat">
+                <span>
+                    FLAGGED
+                </span>
+
+                <strong id="fraudCount">
+                    —
+                </strong>
+            </div>
+
+
+            <div class="stat-card legitimate-stat">
+                <span>
+                    LEGITIMATE
+                </span>
+
+                <strong id="legitimateCount">
+                    —
+                </strong>
+            </div>
+
+
+            <div class="stat-card">
+                <span>
+                    FRAUD RATE
+                </span>
+
+                <strong id="fraudRate">
+                    —
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="probability">
+
+            <span>
+                Average Fraud Probability
+            </span>
+
+            <strong id="probabilityTextDuplicate">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- =====================================
+             BATCH RESULTS
+             ===================================== -->
+
+        <div
+            id="batchResults"
+            class="batch-results hidden"
+        >
+
+            <div class="batch-results-header">
+
+                <div>
+                    <p class="panel-label">
+                        TRANSACTION LOG
+                    </p>
+
+                    <h3>
+                        Analysis Results
+                    </h3>
+                </div>
+
+                <button
+                    id="downloadResults"
+                    class="download-btn"
+                >
+                    ↓ Download CSV
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Fraud Probability</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="resultsTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
+
+    <footer>
+
+        <div class="footer-brand">
+            <span class="brand-mark small">F</span>
+            <strong>FraudLens</strong>
+        </div>
+
+        <span>
+            Transaction Intelligence · Random Forest Engine
+        </span>
+
+        <span>
+            API <strong class="footer-online">ONLINE</strong>
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
