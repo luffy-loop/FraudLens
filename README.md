@@ -1,5 +1,16 @@
 # FraudLens
 
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-REST%20API-000000?logo=flask&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+## Explainable Financial Fraud Detection & Risk Analytics
+
+> An end-to-end fraud detection system combining imbalanced classification,
+> threshold optimization, REST API inference, batch analysis, and
+> model-grounded risk signals.
 ## Explainable Financial Fraud Detection & Risk Analytics
 
 FraudLens is an end-to-end machine learning application for detecting potentially fraudulent financial transactions through a trained Random Forest classifier, a prediction API, and an interactive web interface.
