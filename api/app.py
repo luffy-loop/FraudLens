@@ -27,7 +27,6 @@ app = Flask(
 CORS(app)
 
 
-# Load trained FraudLens model
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,6 +98,14 @@ def get_risk_signals(features):
 
     return signals
 
+
+def get_shap_explanations(features):
+    from src.explainability import explain_transaction
+
+    transaction = features.iloc[0].to_dict()
+    return explain_transaction(transaction, model=model)
+
+
 @app.route("/", methods=["GET"])
 def home():
     return send_from_directory("../frontend", "index.html")
@@ -149,19 +156,18 @@ def predict():
         )
 
         probability = model.predict_proba(features)[0][1]
-
         prediction = int(probability >= threshold)
-
         result = "FRAUD" if prediction == 1 else "LEGITIMATE"
-
         risk_signals = get_risk_signals(features)
+        shap_explanations = get_shap_explanations(features)
 
         return jsonify({
             "prediction": prediction,
             "result": result,
             "fraud_probability": round(float(probability), 6),
             "threshold": threshold,
-            "risk_signals": risk_signals
+            "risk_signals": risk_signals,
+            "shap_explanations": shap_explanations
         })
 
     except Exception:
@@ -196,7 +202,6 @@ def predict_batch():
 
     try:
         for index, transaction in enumerate(transactions):
-
             missing_features = [
                 feature
                 for feature in REQUIRED_FEATURES
@@ -231,9 +236,7 @@ def predict_batch():
             )
 
             probability = model.predict_proba(features)[0][1]
-
             prediction = int(probability >= threshold)
-
             result = "FRAUD" if prediction == 1 else "LEGITIMATE"
 
             results.append({

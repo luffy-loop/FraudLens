@@ -1,0 +1,1 @@
+Coverage is collected in CI with pytest-cov. Use `pytest -q --cov-report=term-missing` locally to inspect uncovered lines before adding thresholds.

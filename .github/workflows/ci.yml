@@ -1,0 +1,36 @@
+name: FraudLens CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile Python files
+        run: python -m py_compile api/app.py api/index.py src/explainability.py monitoring/prediction_monitor.py
+
+      - name: Run tests with coverage
+        run: pytest -q --cov-report=term-missing
+
+      - name: Validate repository files
+        run: |
+          test -f README.md
+          test -f requirements.txt
+          test -f vercel.json
+          test -f models/fraud_detection_model.joblib

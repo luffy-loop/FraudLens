@@ -1,60 +1,80 @@
 # FraudLens
 
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-REST%20API-000000?logo=flask&logoColor=white)
+![SHAP](https://img.shields.io/badge/Explainability-SHAP-FF6F61)
 ![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?logo=vercel&logoColor=white)
+![CI](https://github.com/luffy-loop/FraudLens/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Explainable Financial Fraud Detection & Risk Analytics
 
-> An end-to-end fraud detection system combining imbalanced classification,
-> threshold optimization, REST API inference, batch analysis, and
-> model-grounded risk signals.
-## Explainable Financial Fraud Detection & Risk Analytics
+FraudLens is an end-to-end machine learning application for detecting potentially fraudulent financial transactions. It combines imbalanced classification, probability-based decisions, threshold tuning, a Flask prediction API, batch analysis, model-grounded risk signals, automated testing, monitoring utilities, and SHAP-based local explainability.
 
-FraudLens is an end-to-end machine learning application for detecting potentially fraudulent financial transactions through a trained Random Forest classifier, a prediction API, and an interactive web interface.
+## Live Demo
 
-The project focuses on the practical challenges of financial fraud detection, including severe class imbalance, probability-based classification, threshold tuning, batch prediction, and model-grounded risk signals.
+**Try FraudLens:** https://fraud-lens-eight.vercel.app/
 
----
+**Source Code:** https://github.com/luffy-loop/FraudLens
 
-## 🚀 Live Demo
+## Why FraudLens?
 
-**Try FraudLens:**  
-https://fraud-lens-eight.vercel.app/
+Fraud detection is not an accuracy-first classification problem. Fraudulent transactions represent a tiny fraction of the dataset, so FraudLens focuses on precision, recall, F1, ROC-AUC, PR-AUC, and decision-threshold selection rather than accuracy alone.
 
-**Source Code:**  
-https://github.com/luffy-loop/FraudLens
+The project separates validation-based threshold tuning from final test evaluation and keeps model explanations tied to the anonymized features actually available to the model.
 
----
+## Features
 
-## 🎯 What FraudLens Does
+- Individual transaction fraud scoring
+- Fraud probability and tuned classification threshold
+- Batch prediction for up to 100 transactions
+- Input validation and structured API errors
+- Model-grounded risk signals
+- SHAP-based local explanations
+- Interactive transaction inspector
+- CSV batch analysis
+- Investigation-style prediction reports
+- Flask REST API
+- Reproducible model packaging with joblib
+- Automated API and monitoring tests
+- Lightweight prediction monitoring utilities
+- GitHub Actions CI
 
-FraudLens provides a complete transaction-analysis workflow:
+## Architecture
 
-- Detect potentially fraudulent transactions
-- Return fraud probability for individual transactions
-- Apply a tuned classification threshold
-- Analyze transactions through a web interface
-- Process multiple transactions through batch prediction
-- Validate transaction inputs before prediction
-- Display model-driven risk signals
-- Present model performance metrics
-- Expose the trained model through a Flask API
+```text
+Transaction Data
+      ↓
+Preprocessing + Scaling
+      ↓
+Random Forest
+      ↓
+Fraud Probability
+      ↓
+Validation-selected Threshold
+      ↓
+LEGITIMATE / FRAUD
+      ↓
+┌───────────────┬────────────────┐
+│ Risk Signals  │ SHAP Explanation│
+└───────────────┴────────────────┘
+      ↓
+Flask REST API
+      ↓
+Interactive Frontend
+      ↓
+Monitoring + Tests
+```
 
----
-
-## 🧠 Machine Learning Pipeline
-
-FraudLens follows this workflow:
+## Machine Learning Pipeline
 
 ```text
 Raw Transaction Data
         ↓
 Duplicate Removal
         ↓
-Train / Test Split
+Train / Validation / Test Workflow
         ↓
 Feature Preprocessing
         ↓
@@ -64,26 +84,16 @@ Random Forest Classifier
         ↓
 Probability Prediction
         ↓
-Threshold = 0.60
+Validation Threshold Selection
         ↓
-LEGITIMATE / FRAUD
+Final Test Evaluation
         ↓
-Risk Signals + API Response
-        ↓
-Frontend Investigation Report
+Prediction API + Explainability
 ```
 
-The model is implemented as a scikit-learn pipeline combining preprocessing and classification.
+## Model
 
----
-
-## 🤖 Model
-
-The current production model is a:
-
-**Random Forest Classifier**
-
-Configuration:
+The current prediction pipeline uses a **Random Forest Classifier**.
 
 | Parameter | Value |
 |---|---:|
@@ -93,13 +103,11 @@ Configuration:
 | Random State | 42 |
 | Features | 30 |
 
-The model uses a `StandardScaler` through a `ColumnTransformer` before classification.
+The trained model is packaged with its preprocessing pipeline so inference applies the same feature transformations used during training.
 
----
+## Model Performance
 
-## 📊 Model Performance
-
-The model was evaluated on an untouched test set after threshold selection.
+The deployed pipeline was evaluated on an untouched test set after threshold selection.
 
 | Metric | Test Result |
 |---|---:|
@@ -115,238 +123,131 @@ The model was evaluated on an untouched test set after threshold selection.
 | Actual Legitimate | 56,640 | 11 |
 | Actual Fraud | 24 | 71 |
 
-These metrics demonstrate that the model can identify a large proportion of fraudulent transactions while maintaining relatively high precision.
+These results are dataset-specific and should not be interpreted as production financial-system performance.
 
----
+## Classification Threshold
 
-## 🎚️ Classification Threshold
+The decision threshold is selected on validation data using F1 Score and then applied to the untouched test set.
 
-FraudLens does not simply use the default 0.50 probability threshold.
-
-A validation split was used to evaluate thresholds from **0.10 to 0.90**, with F1 Score used as the selection criterion.
-
-The best validation threshold was:
+The current packaged model uses:
 
 ```text
-0.60
+threshold = 0.60
 ```
-
-The selected threshold was then applied to the untouched test set.
-
-Therefore:
 
 ```text
-Fraud Probability >= 0.60
-        ↓
-      FRAUD
-
-Fraud Probability < 0.60
-        ↓
-   LEGITIMATE
+Fraud Probability >= 0.60 → FRAUD
+Fraud Probability < 0.60  → LEGITIMATE
 ```
 
-This separates **threshold selection** from **final model evaluation**, avoiding the use of test labels to tune the decision boundary.
+An older API-testing notebook contains a historical 0.65 output. That notebook result is treated as a historical test artifact rather than the current packaged threshold.
 
----
+## Explainability
 
-## 🔍 Explainability & Risk Signals
+FraudLens uses two complementary explanation layers.
 
-FraudLens provides model-grounded risk signals alongside each individual prediction.
+### Model-grounded risk signals
 
-The dataset contains anonymized PCA-transformed features:
+The API combines Random Forest feature importance with standardized feature deviation to surface model-relevant signals.
 
-```text
-V1 – V28
-```
+The source dataset contains anonymized PCA-transformed features `V1–V28`, so the application does not invent business meanings such as merchant type, location, or payment method.
 
-Because these features are anonymized principal components, they do not have directly interpretable business meanings such as:
+### SHAP local explanations
 
-- Merchant category
-- Geographic location
-- Customer occupation
-- Payment method
+`src/explainability.py` provides a reusable SHAP-based transaction explainer. It:
 
-FraudLens therefore avoids inventing semantic explanations for these features.
+1. Loads the packaged model.
+2. Applies the same preprocessing pipeline used for inference.
+3. Creates a `TreeExplainer` for the Random Forest.
+4. Ranks the five features with the largest absolute SHAP contribution.
+5. Reports whether each contribution pushes the prediction toward fraud or legitimate classification.
 
-Instead, the application combines:
-
-- Random Forest feature importance
-- Transaction-level standardized feature deviation
-- The strongest model-relevant features
-
-to produce signals such as:
-
-```text
-V14
-High deviation
-
-Model importance: 20.40%
-Deviation: 3.14σ
-```
-
-This approach communicates what the model is responding to without claiming that an anonymized PCA component represents a specific real-world transaction attribute.
-
-### Most Important Model Features
-
-The current Random Forest identifies the following features among its strongest contributors:
-
-| Feature | Importance |
-|---|---:|
-| V14 | 20.40% |
-| V10 | 11.55% |
-| V12 | 10.31% |
-| V17 | 9.58% |
-| V4 | 9.36% |
-| V3 | 6.90% |
-| V11 | 5.72% |
-| V16 | 4.35% |
-| V2 | 3.91% |
-| V9 | 2.55% |
-
-Feature importance indicates how strongly the trained model uses a feature across its decision trees; it does not imply that the feature has a human-readable causal meaning.
-
----
-
-## 🌐 Prediction API
-
-FraudLens exposes the trained model through a Flask REST API.
-
-### Health Check
-
-```http
-GET /health
-```
-
-Example response:
+Example output structure:
 
 ```json
-{
-  "status": "healthy"
-}
+[
+  {
+    "feature": "V14",
+    "shap_value": 0.18421,
+    "direction": "fraud"
+  }
+]
 ```
 
-### Single Prediction
+SHAP values describe model contribution, not causal explanations. Because the underlying V-features are anonymized PCA components, they should not be interpreted as human-readable transaction causes.
+
+## Evaluation Plots
+
+`scripts/generate_evaluation_plots.py` provides a reproducible plotting workflow for:
+
+- ROC curve
+- Precision-Recall curve
+- Confusion matrix
+
+The script expects a dataset containing `Class`, `fraud_probability`, and `prediction` columns. This keeps generated evaluation visuals tied to actual model predictions rather than fabricated values.
+
+Run after creating a prediction-enriched evaluation dataset:
+
+```bash
+python scripts/generate_evaluation_plots.py
+```
+
+Generated figures are written to:
+
+```text
+docs/plots/
+```
+
+## REST API
+
+FraudLens exposes the model through Flask endpoints:
 
 ```http
+GET  /health
 POST /predict
-```
-
-The endpoint expects the following 30 features:
-
-```text
-Time
-V1 – V28
-Amount
-```
-
-Example response:
-
-```json
-{
-  "prediction": 0,
-  "result": "LEGITIMATE",
-  "fraud_probability": 0.526994,
-  "threshold": 0.6,
-  "risk_signals": [
-    {
-      "feature": "V14",
-      "importance": 0.204,
-      "deviation": 3.14,
-      "level": "High deviation"
-    }
-  ]
-}
-```
-
-### Batch Prediction
-
-```http
 POST /predict_batch
 ```
 
-The API supports batch transaction analysis with validation and a maximum batch size of **100 transactions**.
-
----
-
-## 🖥️ Frontend
-
-The FraudLens interface is designed as a financial-security investigation dashboard rather than a simple model demo.
-
-It provides:
-
-### Quick Analysis
-
-Analyze a predefined sample transaction through the prediction API.
-
-### Batch Analysis
-
-Upload a transaction CSV containing:
+`/predict` accepts the 30 transaction features:
 
 ```text
 Time, V1–V28, Amount
 ```
 
-Transactions are validated before being sent to the batch prediction endpoint.
+The response includes fraud probability, threshold, prediction, result, and risk signals.
 
-### Transaction Inspector
+Batch prediction accepts up to 100 transactions and validates every transaction before inference.
 
-Manually enter transaction features and inspect the resulting model prediction.
+**Full API reference:** `docs/API.md`
 
-### Investigation Report
+## Testing
 
-Each individual prediction presents:
+FraudLens includes automated tests for core API behavior and monitoring utilities.
 
-- Fraud probability
-- Classification threshold
-- Final decision
-- Model-driven risk signals
-- Recommended action
+Run locally with:
 
----
-
-## 📁 Project Structure
-
-```text
-FraudLens/
-│
-├── api/
-│   └── app.py
-│
-├── data/
-│   └── raw/
-│       └── creditcard.csv
-│
-├── frontend/
-│   ├── index.html
-│   ├── script.js
-│   ├── style.css
-│   └── test_transactions.csv
-│
-├── models/
-│   └── fraud_detection_model.joblib
-│
-├── notebooks/
-│   ├── 01_dataset_exploration.ipynb
-│   ├── 02_preprocessing.ipynb
-│   └── 03_api_testing.ipynb
-│
-├── monitoring/
-│
-├── src/
-│
-├── tests/
-│
-├── .gitignore
-└── README.md
+```bash
+pytest -q
 ```
 
----
+The GitHub Actions workflow installs the pinned project dependencies, compiles the Python modules, and runs the test suite on pushes to `main` and pull requests targeting `main`.
 
-## 📦 Dataset
+## Prediction Monitoring
 
-FraudLens uses the **Credit Card Fraud Detection** dataset.
+The `monitoring/` package provides lightweight utilities for observing prediction behavior without changing the deployed inference API.
 
-The dataset contains:
+Current utilities include:
+
+- prediction counts and fraud rate
+- mean fraud probability
+- validation of probability and threshold inputs
+- basic reference-vs-current population shift based on mean probability
+
+These utilities provide a foundation for future drift dashboards and automated alerts.
+
+## Dataset
+
+FraudLens uses the **Credit Card Fraud Detection** dataset containing:
 
 - `Time`
 - `V1–V28`
@@ -360,8 +261,6 @@ Place it locally at:
 ```text
 data/raw/creditcard.csv
 ```
-
-### Dataset Characteristics
 
 Original dataset:
 
@@ -377,23 +276,17 @@ Transactions: 283,726
 Fraudulent transactions: 473
 ```
 
-Fraud represents only a very small fraction of the dataset, making class imbalance an important part of the modelling problem.
+The extreme class imbalance is a central modelling consideration.
 
----
+## Handling Class Imbalance
 
-## ⚖️ Handling Class Imbalance
-
-Fraud detection is an extremely imbalanced classification problem.
-
-FraudLens addresses this during model training using:
+FraudLens uses class weighting during model training:
 
 ```python
 class_weight="balanced"
 ```
 
-for the supported classification models.
-
-Evaluation focuses on metrics that are more informative than accuracy alone, particularly:
+Evaluation emphasizes:
 
 - Precision
 - Recall
@@ -401,35 +294,61 @@ Evaluation focuses on metrics that are more informative than accuracy alone, par
 - ROC-AUC
 - PR-AUC
 
----
+## Project Structure
 
-## 🧪 Model Development
+```text
+FraudLens/
+│
+├── api/
+│   ├── app.py
+│   └── index.py
+├── data/
+│   └── raw/
+│       └── creditcard.csv
+├── docs/
+│   ├── API.md
+│   └── plots/
+├── frontend/
+│   ├── index.html
+│   ├── script.js
+│   ├── style.css
+│   └── test_transactions.csv
+├── models/
+│   └── fraud_detection_model.joblib
+├── monitoring/
+│   ├── __init__.py
+│   └── prediction_monitor.py
+├── notebooks/
+│   ├── 01_dataset_exploration.ipynb
+│   ├── 02_preprocessing.ipynb
+│   └── 03_api_testing.ipynb
+├── scripts/
+│   └── generate_evaluation_plots.py
+├── src/
+│   └── explainability.py
+├── tests/
+│   ├── test_api.py
+│   └── test_monitoring.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── .gitignore
+├── LICENSE
+├── requirements.txt
+├── vercel.json
+└── README.md
+```
 
-The project includes experimentation with multiple classical machine learning approaches during model development.
-
-The current deployed prediction pipeline uses:
-
-**Random Forest**
-
-The preprocessing workflow also evaluates:
-
-- Logistic Regression
-- Decision Tree
-- Random Forest
-
-The final model was selected based on fraud-detection performance rather than raw accuracy.
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Machine Learning
 
-- Python
+- Python 3.11
 - pandas
 - NumPy
 - scikit-learn
 - joblib
+- SHAP
 
 ### Backend
 
@@ -447,95 +366,40 @@ The final model was selected based on fraud-detection performance rather than ra
 
 - Vercel
 
----
+### Engineering
 
-## 🔬 Development Workflow
+- GitHub Actions
+- pytest
+- Git
 
-FraudLens was developed incrementally rather than as a single monolithic implementation.
+## Limitations
 
-The workflow includes:
-
-```text
-Dataset Exploration
-        ↓
-Preprocessing
-        ↓
-Model Training
-        ↓
-Evaluation
-        ↓
-Threshold Tuning
-        ↓
-Model Packaging
-        ↓
-Prediction API
-        ↓
-API Validation
-        ↓
-Interactive Frontend
-        ↓
-Risk Signals
-```
-
-This structure keeps experimentation, model development, API development, and frontend integration separated.
-
----
-
-## ⚠️ Limitations
-
-FraudLens is a portfolio and educational machine learning application and should not be treated as a production financial fraud detection system.
+FraudLens is a portfolio and educational machine learning application, not a production financial fraud detection system.
 
 Important limitations include:
 
 - The dataset contains anonymized PCA features.
-- The model does not have access to real-world merchant, customer, device, or geographic information.
-- Risk signals describe model-relevant statistical patterns rather than business-level fraud causes.
-- Model performance depends heavily on the underlying dataset.
+- The model does not use merchant, customer, device, or geographic information.
+- SHAP and risk signals describe model behavior, not real-world causal fraud reasons.
+- Results depend on the underlying dataset and its distribution.
 - The classification threshold is tuned for this dataset and may not generalize to another transaction population.
-- The current model does not continuously retrain itself on new financial data.
+- The current model does not continuously retrain on new financial data.
 - No claim is made that the model can replace professional fraud investigation systems.
 
----
+## Future Improvements
 
-## 🚀 Future Improvements
-
-Potential future development includes:
-
-- SHAP-based local explanations
-- More robust model comparison
+- Integrate SHAP explanations directly into the frontend investigation report
+- Persist evaluation plots as versioned model artifacts
 - Hyperparameter optimization
-- Precision-Recall curve visualization
-- Model drift monitoring
+- Model drift dashboards
 - Automated retraining workflows
 - Feature distribution monitoring
-- More advanced anomaly detection
+- Advanced anomaly detection
 - Authentication and API security
 - Production-grade deployment infrastructure
 
 These are planned improvements rather than currently implemented capabilities.
 
----
-
-## 🎓 Project Goals
-
-FraudLens was built to demonstrate practical machine learning engineering across the complete lifecycle of a classification system:
-
-```text
-Data
-→ Preprocessing
-→ Imbalanced Classification
-→ Model Evaluation
-→ Threshold Optimization
-→ Model Packaging
-→ REST API
-→ Frontend Integration
-→ Explainability
-```
-
-The goal is not only to train a fraud classifier, but to demonstrate how a machine learning model can be turned into an interactive application.
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
